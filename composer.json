@@ -1,0 +1,40 @@
+{
+    "name": "bzcoding/bz-contact-php",
+    "description": "A simple contact form manager for static sites and landing pages",
+    "keywords": ["form","landing page"],
+    "homepage": "http://github.com/bzcoding/BZContactPHP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vito Tardia / BZ Coding Ltd",
+            "email": "info@bzcoding.com",
+            "homepage": "http://bzcoding.com/"
+        }
+    ],
+    "scripts": {
+        "server": "php -S 0.0.0.0:8080 -t app/public app/public/index.php",
+        "lint": "phpcs --standard=PSR2 --colors app",
+        "test": "phpunit"
+    },
+    "autoload": {
+        "psr-4": {
+            "BZContact\\": "app/lib/BZContact",
+            "MailChimp\\": "app/lib/MailChimp"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "slim/slim": "^3.1",
+        "slim/php-view": "^2.0",
+        "monolog/monolog": "^1.17",
+        "adamwathan/form": "^0.8.9",
+        "michelf/php-markdown": "^1.6"
+    },
+    "archive": {
+        "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.6",
+        "phpunit/phpunit": "5.4.*"
+    }
+}

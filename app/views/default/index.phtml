@@ -1,0 +1,67 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>BZ Contact</title>
+  <meta name="description" content="Contact us">
+  <meta name="author" content="Your (Company) Name">
+
+  <!-- <link rel="stylesheet" href="css/styles.css?v=1.0"> -->
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+  <section id="contact-form" class="content">
+  <h1>Contact Us</h1>
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </p>
+
+  <?= $form->open(); ?>
+  <ol class="form-fields">
+    <li>
+        <?= $form->label()->forId('contact-name'); ?>
+        <?= $form->field('contact-name'); ?>
+    </li>
+    <li>
+      <?= $form->label()->forId('contact-company'); ?>
+      <?= $form->field('contact-company'); ?>
+    </li>
+    <li>
+      <?= $form->label()->forId('contact-email'); ?>
+      <?= $form->field('contact-email')->addClass('email'); ?>
+    </li>
+    <li>
+      <?= $form->label()->forId('contact-phone'); ?>
+      <?= $form->field('contact-phone'); ?>
+    </li>
+    <li>
+      <?= $form->label()->forId('message-subject'); ?>
+      <?= $form->field('message-subject'); ?>
+    </li>
+    <li>
+      <?= $form->label()->forId('message-text'); ?>
+      <?= $form->field('message-text'); ?>
+    </li>
+    <li>
+      <?= $form->label()->forId('referral'); ?>
+      <?= $form->field('referral'); ?>
+    </li>
+    <li>
+      <?= $form->field('privacy'); ?>
+      <?= $form->label()->forId('privacy'); ?>
+    </li>
+    <li class="submit">
+      <?= $form->field('contact-submit'); ?>
+    </li>
+  </ol>
+  <?= $form->close(); ?>
+  </section>
+  <!-- <script src="js/scripts.js"></script> -->
+</body>
+</html>

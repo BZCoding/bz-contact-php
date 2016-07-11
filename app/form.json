@@ -1,0 +1,78 @@
+{
+    "attributes": {
+        "id": "frm-contact",
+        "class": "contact-form",
+        "accept-charset": "utf-8"
+    },
+    "fields": [
+        {
+            "id": "contact-name",
+            "name": "name",
+            "label": "Your name",
+            "placeholder": "eg. John Appleseed",
+            "required": true
+        },
+        {
+            "id": "contact-company",
+            "name": "company",
+            "label": "Company",
+            "placeholder": "eg. ACME Ltd"
+        },
+        {
+            "id": "contact-email",
+            "name": "email",
+            "label": "Email address",
+            "placeholder": "eg. john@acme.com",
+            "type": "email",
+            "required": true
+        },
+        {
+            "id": "contact-phone",
+            "name": "phone",
+            "label": "Phone number",
+            "placeholder": "eg. +44 (0) 123 456 7890",
+            "type": "tel"
+        },
+        {
+            "id": "message-subject",
+            "name": "subject",
+            "label": "Subject",
+            "placeholder": "eg. Hello Guys",
+            "required": true
+        },
+        {
+            "id": "message-text",
+            "name": "message",
+            "label": "Your message",
+            "type": "textarea",
+            "rows": 6,
+            "cols": 32,
+            "required": true
+        },
+        {
+            "id": "privacy",
+            "name": "privacy",
+            "label": "I agree to ACME [privacy policy](/privacy) and [Terms of service](/terms)",
+            "type": "checkbox",
+            "value": "agree",
+            "required": true
+        },
+        {
+            "id":"referral",
+            "name":"referral",
+            "type":"select",
+            "label": "How did you hear of us?",
+            "options": [
+                {"f": "Friends"},
+                {"c": "Clients"},
+                "Other"
+            ]
+        },
+        {
+            "id": "contact-submit",
+            "name": "saveForm",
+            "type": "submit",
+            "value": "Send message"
+        }
+    ]
+}
