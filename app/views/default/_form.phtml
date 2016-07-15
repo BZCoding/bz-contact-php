@@ -1,0 +1,54 @@
+<?= $form->open(); ?>
+<ol class="form-fields">
+  <li>
+      <?= $form->label()->forId('contact-name'); ?>
+      <?= $form->field('contact-name'); ?>
+      <?= $form->getError('contact-name'); ?>
+  </li>
+  <li>
+    <?= $form->label()->forId('contact-company'); ?>
+    <?= $form->field('contact-company'); ?>
+    <?= $form->getError('contact-company'); ?>
+  </li>
+  <li>
+    <?= $form->label()->forId('contact-email'); ?>
+    <?= $form->field('contact-email')->addClass('email'); ?>
+    <?= $form->getError('contact-email'); ?>
+  </li>
+  <li>
+    <?= $form->label()->forId('contact-phone'); ?>
+    <?= $form->field('contact-phone'); ?>
+    <?= $form->getError('contact-phone'); ?>
+  </li>
+  <li>
+    <?= $form->label()->forId('message-subject'); ?>
+    <?= $form->field('message-subject'); ?>
+    <?= $form->getError('message-subject'); ?>
+  </li>
+  <li>
+    <?= $form->label()->forId('message-text'); ?>
+    <?= $form->field('message-text'); ?>
+    <?= $form->getError('message-text'); ?>
+  </li>
+  <li>
+    <?= $form->label()->forId('referral'); ?>
+    <?= $form->field('referral'); ?>
+    <?= $form->getError('referral'); ?>
+  </li>
+  <li>
+    <?= $form->field('client-type-business'); ?>
+    <?= $form->label()->forId('client-type-business'); ?>
+    <?= $form->field('client-type-consumer'); ?>
+    <?= $form->label()->forId('client-type-consumer'); ?>
+    <?= $form->getError('client-type-consumer'); ?>
+  </li>
+  <li>
+    <?= $form->field('privacy'); ?>
+    <?= $form->label()->forId('privacy'); ?>
+    <?= $form->getError('privacy'); ?>
+  </li>
+  <li class="submit">
+    <?= $form->field('contact-submit'); ?>
+  </li>
+</ol>
+<?= $form->close(); ?>
