@@ -32,6 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     # Port forwarding (MySQL, HTTP and HTTPS)
     jessie.vm.network :forwarded_port, guest: 80, host: 8000, auto_correct: true
+    jessie.vm.network :forwarded_port, guest: 8080, host: 8080, auto_correct: true
     # jessie.vm.network :forwarded_port, guest: 8443, host: 8443, auto_correct: true
     # jessie.vm.network :forwarded_port, guest: 3306, host: 3306, auto_correct: true
 
