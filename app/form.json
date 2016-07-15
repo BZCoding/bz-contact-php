@@ -2,7 +2,8 @@
     "attributes": {
         "id": "frm-contact",
         "class": "contact-form",
-        "accept-charset": "utf-8"
+        "accept-charset": "utf-8",
+        "novalidate":"novalidate"
     },
     "fields": [
         {
@@ -10,7 +11,8 @@
             "name": "name",
             "label": "Your name",
             "placeholder": "eg. John Appleseed",
-            "required": true
+            "required": true,
+            "error": "Your name is a required field"
         },
         {
             "id": "contact-company",
@@ -52,10 +54,10 @@
         {
             "id": "privacy",
             "name": "privacy",
-            "label": "I agree to ACME [privacy policy](/privacy) and [Terms of service](/terms)",
+            "label": "I agree to ACME [privacy policy](/privacy) and [terms of service](/terms)",
             "type": "checkbox",
-            "value": "agree",
-            "required": true
+            "required": true,
+            "error": "Agreement to our policies is required"
         },
         {
             "id":"referral",
@@ -65,8 +67,25 @@
             "options": [
                 {"f": "Friends"},
                 {"c": "Clients"},
-                "Other"
-            ]
+                {"o": "Other"}
+            ],
+            "error": "The chosen option is not valid"
+        },
+        {
+            "id": "client-type-business",
+            "name": "client-type",
+            "value": "business",
+            "label": "I'm a Business owner",
+            "type": "radio"
+        },
+        {
+            "id": "client-type-consumer",
+            "name": "client-type",
+            "value": "consumer",
+            "label": "I'm a Consumer",
+            "type": "radio",
+            "required": true,
+            "error": "Please, choose a valid option"
         },
         {
             "id": "contact-submit",

@@ -13,7 +13,7 @@
     ],
     "scripts": {
         "server": "php -S 0.0.0.0:8080 -t app/public app/public/index.php",
-        "lint": "phpcs --standard=PSR2 --colors app",
+        "lint": "phpcs --standard=PSR2 --colors app tests",
         "test": "phpunit"
     },
     "autoload": {
@@ -28,7 +28,8 @@
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17",
         "adamwathan/form": "^0.8.9",
-        "michelf/php-markdown": "^1.6"
+        "michelf/php-markdown": "^1.6",
+        "vlucas/valitron": "^1.2",
         "akrabat/rka-ip-address-middleware": "^0.4.0"
     },
     "archive": {

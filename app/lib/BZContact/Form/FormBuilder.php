@@ -3,6 +3,7 @@ namespace BZContact\Form;
 
 /**
  * Build a Form from a JSON description string
+ * @see https://github.com/adamwathan/form
  */
 class FormBuilder extends \AdamWathan\Form\FormBuilder
 {
@@ -177,19 +178,7 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
             }
             // Deal with select
             if ('select' === $field->type) {
-                if (!empty($field->options && is_array($field->options))) {
-                    $selectOptions = [];
-                    foreach ($field->options as $option) {
-                        if (is_object($option)) {
-                            $vars = get_object_vars($option);
-                            $key = array_keys($vars)[0];
-                            $selectOptions[$key] = $vars[$key];
-                            continue;
-                        }
-                        $selectOptions[] = $option;
-                    }
-                    $obj->options($selectOptions);
-                }
+                $obj->options($this->form->parseSelectOptions($field->options));
             }
             if (!empty($field->placeholder)) {
                 $obj->placeholder($field->placeholder);
@@ -205,7 +194,32 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
             }
             return $obj;
         }
-        return $this;
         return new Elements\EmptyElement();
+    }
+
+    /**
+     * Validates the form submitted data with the provided validator
+     *
+     * @param array $data Array of GET/POST data
+     * @param Validator $v A validator object
+     * @return boolean
+     */
+    public function validates(array $data, Validator $v)
+    {
+        return $this->form->validates($data, $v);
+    }
+
+    /**
+     * Retrieves errors for a field
+     *
+     * @param string $id The id of the form element
+     * @return Elements\Element
+     */
+    public function getError($id)
+    {
+        if (!empty($this->form->fields[$id])) {
+            return parent::getError($this->form->fields[$id]->name, '<span class="error">:message</span>');
+        }
+        return '';
     }
 }

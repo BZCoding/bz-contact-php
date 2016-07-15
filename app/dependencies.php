@@ -37,6 +37,12 @@ $container['form'] = function ($c) {
     return $builder;
 };
 
+// form validator
+$container['validator'] = function ($c) {
+    $validator = new BZContact\Form\Validator();
+    return $validator;
+};
+
 // error handler
 $container['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {
