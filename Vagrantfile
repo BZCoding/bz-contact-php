@@ -19,7 +19,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.ssh.private_key_path = "#{ENV['HOME']}/.ssh/id_rsa"
 
   # VM definition
-  config.vm.define "bzcontact" do |jessie|
+  config.vm.define PROJECT do |jessie|
 
     # Box details
     # Note: consider hosting you own boxes (ie http://virtualboxes.loc/boxes/jessie64.box)
@@ -73,7 +73,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       # Add the box to mysql group and use custom group vars
       ansible.groups = {
-        "php" => "bzcontact",
+        "php" => PROJECT,
         "php:vars" => {
           "variable1" => 9,
           "variable2" => "example"
@@ -82,7 +82,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       # Custom host vars
       ansible.host_vars = {
-        "bzcontact" => {
+        PROJECT => {
         }
       }
 
