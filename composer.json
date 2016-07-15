@@ -29,6 +29,7 @@
         "monolog/monolog": "^1.17",
         "adamwathan/form": "^0.8.9",
         "michelf/php-markdown": "^1.6"
+        "akrabat/rka-ip-address-middleware": "^0.4.0"
     },
     "archive": {
         "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]
