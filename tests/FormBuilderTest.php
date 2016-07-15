@@ -1,4 +1,6 @@
 <?php
+namespace BZContact;
+
 use PHPUnit\Framework\TestCase;
 
 class FormBuilderTest extends TestCase
@@ -10,7 +12,7 @@ class FormBuilderTest extends TestCase
      */
     public function testErrorOnNoData()
     {
-        $builder = new BZContact\Form\FormBuilder();
+        $builder = new Form\FormBuilder();
     }
 
     /**
@@ -19,8 +21,8 @@ class FormBuilderTest extends TestCase
      */
     public function testErrorOnInvalidJson()
     {
-        $this->expectException(ErrorException::class);
-        $builder = new BZContact\Form\FormBuilder('{"fields":[{}{}]}');
+        $this->expectException(\ErrorException::class);
+        $builder = new Form\FormBuilder('{"fields":[{}{}]}');
     }
 
     /**
@@ -29,8 +31,8 @@ class FormBuilderTest extends TestCase
      */
     public function testErrorOnEmptyJson()
     {
-        $this->expectException(ErrorException::class);
-        $builder = new BZContact\Form\FormBuilder('{}');
+        $this->expectException(\ErrorException::class);
+        $builder = new Form\FormBuilder('{}');
     }
 
     /**
@@ -43,11 +45,12 @@ class FormBuilderTest extends TestCase
         $data .= '{"id":"contact-email","name":"email","type":"email","required":true},';
         $data .= '{"id":"contact-phone","name":"contact-phone","type":"tel"},';
         $data .= '{"id":"contact-message","name":"contact-message","type":"textarea","rows":8,"cols":20},';
-        $data .= '{"id":"referral","name":"referral","type":"select","label": "Choose one","options": [{"f": "Foo"},{"c": "Bar"},"Baz"]},';
+        $data .= '{"id":"referral","name":"referral","type":"select",'
+            .'"label": "Choose one","options": [{"f": "Foo"},{"c": "Bar"},"Baz"]},';
         $data .= '{"id":"terms","name":"terms","type":"checkbox","value":"agree"},';
         $data .= '{"id":"contact-submit","name":"contact-submit","type":"submit","value":"Send"}';
         $data .= ']}';
-        $builder = new BZContact\Form\FormBuilder($data);
+        $builder = new Form\FormBuilder($data);
 
         $nameFieldMarkup = $builder->field('field-1')->__toString();
 
@@ -65,10 +68,10 @@ class FormBuilderTest extends TestCase
 
         // Test default required is false
         $this->assertThat(
-          $nameFieldMarkup,
-          $this->logicalNot(
-            $this->stringContains('required="required"', $nameFieldMarkup)
-          )
+            $nameFieldMarkup,
+            $this->logicalNot(
+                $this->stringContains('required="required"', $nameFieldMarkup)
+            )
         );
 
         $emailFieldMarkup = $builder->field('contact-email')->__toString();
@@ -96,7 +99,10 @@ class FormBuilderTest extends TestCase
 
         // Test textarea
         $messageFieldMarkup = $builder->field('contact-message')->__toString();
-        $this->assertContains('<textarea name="contact-message" rows="8" cols="20" id="contact-message">', $messageFieldMarkup);
+        $this->assertContains(
+            '<textarea name="contact-message" rows="8" cols="20" id="contact-message">',
+            $messageFieldMarkup
+        );
 
         // Test checkbox field
         $checkboxFieldMarkup = $builder->field('terms')->__toString();
@@ -111,7 +117,7 @@ class FormBuilderTest extends TestCase
 
         // Test submit field
         $submitFieldMarkup = $builder->field('contact-submit')->__toString();
-        $this->assertContains('type="button" name="contact-submit" id="contact-submit">Send', $submitFieldMarkup);
+        $this->assertContains('type="submit" name="contact-submit" id="contact-submit">Send', $submitFieldMarkup);
     }
 
     /**
@@ -128,7 +134,7 @@ class FormBuilderTest extends TestCase
         $data .= '"fields":[';
         $data .= '{"id":"contact-email","name":"email","type":"email","required":true}';
         $data .= ']}';
-        $builder = new BZContact\Form\FormBuilder($data);
+        $builder = new Form\FormBuilder($data);
 
         // Test open form attributes
         $openFormMarkup = $builder->open()->addClass('foo')->__toString();
@@ -157,7 +163,7 @@ class FormBuilderTest extends TestCase
         $data .= '"fields":[';
         $data .= '{"id":"contact-email","name":"email","type":"email","required":true}';
         $data .= ']}';
-        $builder = new BZContact\Form\FormBuilder($data);
+        $builder = new Form\FormBuilder($data);
         $openFormMarkup = $builder->open()->addClass('foo')->__toString();
         $this->assertContains('method="POST"', $openFormMarkup);
         $this->assertContains('enctype="multipart/form-data"', $openFormMarkup);
@@ -174,7 +180,7 @@ class FormBuilderTest extends TestCase
         $data .= '"fields":[';
         $data .= '{"id":"contact-email","name":"email","type":"email","required":true}';
         $data .= ']}';
-        $builder = new BZContact\Form\FormBuilder($data);
+        $builder = new Form\FormBuilder($data);
         $openFormMarkup = $builder->open()->addClass('foo')->__toString();
         $this->assertContains('method="POST"', $openFormMarkup);
         $this->assertContains('enctype="my-custom/encoding"', $openFormMarkup);
@@ -190,8 +196,8 @@ class FormBuilderTest extends TestCase
         $data .= '},';
         $data .= '"fields":[';
         $data .= ']}';
-        $this->expectException(ErrorException::class);
-        $builder = new BZContact\Form\FormBuilder($data);
+        $this->expectException(\ErrorException::class);
+        $builder = new Form\FormBuilder($data);
     }
 
     /**
@@ -205,8 +211,8 @@ class FormBuilderTest extends TestCase
         $data .= '{"id":"bar","name":"bar"}';
         $data .= '{"id":"foo","name":"baz"}';
         $data .= ']}';
-        $this->expectException(ErrorException::class);
-        $builder = new BZContact\Form\FormBuilder($data);
+        $this->expectException(\ErrorException::class);
+        $builder = new Form\FormBuilder($data);
     }
 
     /**
@@ -221,8 +227,8 @@ class FormBuilderTest extends TestCase
         $data .= '"fields":[';
         $data .= '{"id":"contact-email","name":"email","type":"email","required":true}';
         $data .= ']}';
-        $this->expectException(ErrorException::class);
-        $builder = new BZContact\Form\FormBuilder($data);
+        $this->expectException(\ErrorException::class);
+        $builder = new Form\FormBuilder($data);
         $openFormMarkup = $builder->open()->addClass('foo')->__toString();
     }
 }
