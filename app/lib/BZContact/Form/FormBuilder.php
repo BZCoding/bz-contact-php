@@ -206,5 +206,6 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
             return $obj;
         }
         return $this;
+        return new Elements\EmptyElement();
     }
 }
