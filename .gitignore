@@ -3,3 +3,4 @@
 !/logs/README.md
 .vagrant
 .DS_Store
+/coverage
