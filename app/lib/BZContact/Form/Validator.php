@@ -31,9 +31,6 @@ class Validator
 
     private function buildRules()
     {
-        if (!isset($this->v)) {
-            return false;
-        }
         foreach ($this->rules as $ruleName => $ruleData) {
             foreach ($ruleData as $ruleDataItem) {
                 $params = (!empty($ruleDataItem['params'])) ? $ruleDataItem['params'] : null;
@@ -49,12 +46,15 @@ class Validator
     /**
      * Set a single validator rule
      *
-     * @param array $rules Array of rules to use for validation
+     * @param string $rule Validation rule name
+     * @param mixed  $fields String or array with field names
      * @return void
      */
     public function rule($rule, $fields)
     {
-        return $this->v->rule($rule, $fields);
+        if (isset($this->v)) {
+            return $this->v->rule($rule, $fields);
+        }
     }
 
     /**

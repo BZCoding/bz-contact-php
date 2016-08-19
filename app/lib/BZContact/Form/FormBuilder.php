@@ -213,7 +213,7 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
      * Retrieves errors for a field
      *
      * @param string $id The id of the form element
-     * @return Elements\Element
+     * @return string
      */
     public function getError($id)
     {

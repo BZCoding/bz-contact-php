@@ -41,11 +41,11 @@ class FormBuilderTest extends TestCase
     public function testABasicValidForm()
     {
         $data = '{"fields":[';
-        $data .= '{"name":"name","label": "Your name"},';
+        $data .= '{"name":"name","label":"Your name","placeholder":"i.e. John Doe"},';
         $data .= '{"id":"contact-email","name":"email","type":"email","required":true},';
-        $data .= '{"id":"contact-phone","name":"contact-phone","type":"tel"},';
+        $data .= '{"id":"contact-phone","name":"contact-phone","type":"tel","class":"phone"},';
         $data .= '{"id":"contact-message","name":"contact-message","type":"textarea","rows":8,"cols":20},';
-        $data .= '{"id":"referral","name":"referral","type":"select",'
+        $data .= '{"id":"referral","type":"select",'
             .'"label": "Choose one","options": [{"f": "Foo"},{"c": "Bar"},"Baz"]},';
         $data .= '{"id":"terms","name":"terms","type":"checkbox","value":"agree"},';
         $data .= '{"id":"contact-submit","name":"contact-submit","type":"submit","value":"Send"}';
@@ -61,6 +61,9 @@ class FormBuilderTest extends TestCase
 
         // Test default field type is text
         $this->assertContains('type="text"', $nameFieldMarkup);
+
+        // Test placeholder attribute
+        $this->assertContains('placeholder="i.e. John Doe"', $nameFieldMarkup);
 
         // Test label generation
         $labelForNameMarkup = $builder->label()->forId('field-1')->__toString();
@@ -93,6 +96,9 @@ class FormBuilderTest extends TestCase
         // Test custom field type is tel
         $this->assertContains('type="tel"', $phoneFieldMarkup);
 
+        // Test additional CSS class
+        $this->assertContains('class="phone"', $phoneFieldMarkup);
+
         // Test custom field tel directly
         $phoneFieldMarkup = $builder->tel('phone')->__toString();
         $this->assertContains('type="tel" name="phone"', $phoneFieldMarkup);
@@ -109,6 +115,7 @@ class FormBuilderTest extends TestCase
         $this->assertContains('type="checkbox" name="terms" value="agree" id="terms"', $checkboxFieldMarkup);
 
         // Test select field
+        // Also test that on empty name attribute, ID is used
         $selectFieldMarkup = $builder->field('referral')->__toString();
         $this->assertContains('<select name="referral" id="referral">', $selectFieldMarkup);
         $this->assertContains('<option value="f">Foo</option>', $selectFieldMarkup);
@@ -118,6 +125,11 @@ class FormBuilderTest extends TestCase
         // Test submit field
         $submitFieldMarkup = $builder->field('contact-submit')->__toString();
         $this->assertContains('type="submit" name="contact-submit" id="contact-submit">Send', $submitFieldMarkup);
+
+        // Test that an empty form elemebt is returned when an unknown id is passed
+        $emptyFieldMarkup = $builder->field('unknown');
+        $this->assertInstanceOf(Form\Elements\EmptyElement::class, $emptyFieldMarkup);
+        $this->assertEmpty($emptyFieldMarkup->__toString());
     }
 
     /**
@@ -230,5 +242,59 @@ class FormBuilderTest extends TestCase
         $this->expectException(\ErrorException::class);
         $builder = new Form\FormBuilder($data);
         $openFormMarkup = $builder->open()->addClass('foo')->__toString();
+    }
+
+    /**
+     * Test builder validation with mock validator
+     */
+    public function testValidate()
+    {
+        $data = '{"fields":[';
+        $data .= '{"name":"name","label":"Your name","placeholder":"i.e. John Doe"},';
+        $data .= '{"id":"contact-email","name":"email","type":"email","required":true},';
+        $data .= '{"id":"contact-submit","name":"contact-submit","type":"submit","value":"Send"}';
+        $data .= ']}';
+
+        $builder = new Form\FormBuilder($data);
+
+        // Test with a validator that returns True
+        $validator = $this->createMock(Form\Validator::class);
+        $validator->expects($this->any())->method('validate')->willReturn(true);
+        $this->assertTrue($builder->validates([], $validator));
+
+        // Test with a validator that returns False
+        $validator = $this->createMock(Form\Validator::class);
+        $validator->expects($this->any())->method('validate')->willReturn(false);
+        $this->assertFalse($builder->validates([], $validator));
+    }
+
+    /**
+     * Test validation error retrieval
+     */
+    public function testFieldError()
+    {
+        $data = '{"fields":[';
+        $data .= '{"id":"contact-name","name":"name","label":"Your name","placeholder":"i.e. John Doe"},';
+        $data .= '{"id":"contact-email","name":"email","type":"email","required":true},';
+        $data .= '{"id":"contact-submit","name":"contact-submit","type":"submit","value":"Send"}';
+        $data .= ']}';
+
+        $builder = new Form\FormBuilder($data);
+
+        // Test error for non existing field (should be empty)
+        $errorStore = $this->createMock(Form\ErrorStore::class);
+        $errorStore->expects($this->any())->method('hasError')->willReturn(false);
+        $errorStore->expects($this->any())->method('getError')->willReturn(null);
+        $builder->setErrorStore($errorStore);
+        $this->assertInternalType('string', $builder->getError('unknown'));
+        $this->assertEmpty($builder->getError('unknown'));
+
+        // Test error for existing field, should be formatted HTML
+        $errorStore = $this->createMock(Form\ErrorStore::class);
+        $errorStore->expects($this->any())->method('hasError')->with('name')->willReturn(true);
+        $errorStore->expects($this->any())->method('getError')->with('name')->willReturn('Name is required');
+        $builder->setErrorStore($errorStore);
+        $this->assertInternalType('string', $builder->getError('name'));
+        $this->assertEquals('<span class="error">Name is required</span>', $builder->getError('contact-name'));
     }
 }
