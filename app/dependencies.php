@@ -43,6 +43,12 @@ $container['validator'] = function ($c) {
     return $validator;
 };
 
+// form store
+$container['store'] = function ($c) use ($container) {
+    $store = new BZContact\Form\Store\DummyStore($container['logger']);
+    return $store;
+};
+
 // error handler
 $container['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {

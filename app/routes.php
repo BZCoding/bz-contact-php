@@ -25,6 +25,12 @@ $app->post('/', function ($request, $response) {
     if ($this->form->validates($data, $this->validator)) {
         // Save entry to database
 
+        // A Form\Store\StoreInterface object creates a Form\Store\EntryInterface object
+        $entry = $this->store->createEntry($data);
+
+        // It can throw exception, catched by the error handler
+        $entry->save();
+
         // Do or enqueue addictional actions/hooks:
         //  - send message to owner
         //  - send message to user
