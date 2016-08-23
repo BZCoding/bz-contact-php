@@ -23,9 +23,12 @@ $app->post('/', function ($request, $response) {
 
     // Validate form data
     if ($this->form->validates($data, $this->validator)) {
+        // Filter data that we don't want to be saved in database
+        $data = $this->form->filter($data);
+
         // Save entry to database
 
-        // A Form\Store\StoreInterface object creates a Form\Store\EntryInterface object
+        // A Form\Store\StoreInterface object creates a Form\Store\FormEntryInterface object
         $entry = $this->store->createEntry($data);
 
         // It can throw exception, catched by the error handler

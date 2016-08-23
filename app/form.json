@@ -91,7 +91,8 @@
             "id": "contact-submit",
             "name": "saveForm",
             "type": "submit",
-            "value": "Send message"
+            "value": "Send message",
+            "save": false
         }
     ]
 }

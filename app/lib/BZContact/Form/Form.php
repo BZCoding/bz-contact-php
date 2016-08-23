@@ -9,6 +9,7 @@ class Form
 {
     public $attributes = [];
     public $fields = [];
+    public $names = [];
 
     /**
      * Validates the form submitted data with the provided validator
@@ -21,7 +22,7 @@ class Form
     {
         $v->rules($this->buildRules());
         $v->labels($this->buildLabels());
-        return $v->validate($data);
+        return $v->validate($this->filter($data));
     }
 
     /**
@@ -99,5 +100,26 @@ class Form
             }
         }
         return $labels;
+    }
+
+    /**
+     * Filter data removing unmapped and not-to-be-saved fields
+     *
+     * @param array $data Array of form data
+     * @return array
+     */
+    public function filter(array $data)
+    {
+        $filteredData = [];
+        foreach ($data as $key => $value) {
+            if (array_key_exists($key, $this->names)) {
+                if (isset($this->fields[$this->names[$key]]->save)
+                    && false === $this->fields[$this->names[$key]]->save) {
+                    continue;
+                }
+                $filteredData[$key] = $value;
+            }
+        }
+        return $filteredData;
     }
 }

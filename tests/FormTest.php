@@ -139,4 +139,50 @@ class FormTest extends TestCase
         $labels = $this->invokeMethod($form, 'buildLabels');
         $this->assertInternalType('array', $labels);
     }
+
+    public function testFilter()
+    {
+        $form = new Form\Form;
+
+        // Standard required field
+        $text1 = new \stdClass;
+        $text1->type = 'text';
+        $text1->name = 'foo';
+        $text1->id = 'foo';
+        $text1->required = true;
+        $form->fields[$text1->id] = $text1;
+        $form->names[$text1->name] = $text1->id;
+
+        // Required field with custom error message
+        $text2 = new \stdClass;
+        $text2->type = 'text';
+        $text2->required = true;
+        $text2->name = 'bar';
+        $text2->id = 'bar';
+        $text2->error = 'Bar is a required field';
+        $form->fields[$text2->id] = $text2;
+        $form->names[$text2->name] = $text2->id;
+
+        $submit = new \stdClass;
+        $submit->type = 'submit';
+        $submit->required = false;
+        $submit->name = 'saveForm';
+        $submit->id = 'save-form';
+        $submit->value = 'Send';
+        $submit->save = false;
+        $form->fields[$submit->id] = $submit;
+        $form->names[$submit->name] = $submit->id;
+
+        $data = [
+            'foo' => 'Foo Value',
+            'bar' => 'Bar Value',
+            'baz' => 'Shouldnt be included',
+            'saveForm' => ''
+        ];
+
+        $filteredData = $form->filter($data);
+        $this->assertInternalType('array', $filteredData);
+        $this->assertArrayNotHasKey('baz', $filteredData);
+        $this->assertArrayNotHasKey('saveForm', $filteredData);
+    }
 }

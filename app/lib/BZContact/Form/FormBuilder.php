@@ -73,6 +73,10 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
             }
 
             $this->form->fields[$field->id] = $field;
+
+            // Keep field index by name
+            $this->form->names[$field->name] = $field->id;
+
             $fieldCount++;
         }
 
@@ -207,6 +211,17 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
     public function validates(array $data, Validator $v)
     {
         return $this->form->validates($data, $v);
+    }
+
+    /**
+     * Filter data removing unmapped and not-to-be-saved fields
+     *
+     * @param array $data Array of form data
+     * @return array
+     */
+    public function filter(array $data)
+    {
+        return $this->form->filter($data);
     }
 
     /**

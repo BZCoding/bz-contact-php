@@ -161,7 +161,6 @@ class FormBuilderTest extends TestCase
         $this->assertContains('name="email"', $emailFieldMarkup);
         $this->assertContains('type="email"', $emailFieldMarkup);
         $this->assertContains('required="required"', $emailFieldMarkup);
-
     }
 
     /**
