@@ -13,10 +13,7 @@
 
     roles:
       - { role: php-apache2, tags: ['php','apache2'] }
-
-      # You can add MySQL and MongoDB roles here...
-      # - { role: mysql, tags: ['mysql'] }
-      # - { role: mongodb, tags: ['mongodb'] }
+      - { role: mongodb, tags: ['mongodb'] }
 
     tasks:
 
