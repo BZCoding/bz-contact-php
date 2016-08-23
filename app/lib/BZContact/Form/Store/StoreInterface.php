@@ -5,4 +5,5 @@ namespace BZContact\Form\Store;
 interface StoreInterface
 {
     public function createEntry(array $data);
+    public function saveEntry(array $data);
 }

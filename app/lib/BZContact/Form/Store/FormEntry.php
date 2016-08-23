@@ -6,19 +6,19 @@ use Psr\Log\LoggerInterface;
 
 class FormEntry implements FormEntryInterface
 {
-    protected $logger = null;
+    protected $store = null;
     protected $data = [];
 
     /**
      * Construct a Basic form entry
      *
      * @param array $data Array of user data
-     * @param LoggerInterface $logger The logger object
+     * @param StoreInterface $store The store object
      * @return void
      */
-    public function __construct(array $data, LoggerInterface $logger)
+    public function __construct(array $data, StoreInterface $store)
     {
-        $this->logger = $logger;
+        $this->store = $store;
         $this->data = $data;
     }
 
@@ -30,7 +30,6 @@ class FormEntry implements FormEntryInterface
      */
     public function save()
     {
-        $this->logger->info("Saving...", ['data' => $this->data]);
-        return true;
+        return $this->store->saveEntry($this->data);
     }
 }

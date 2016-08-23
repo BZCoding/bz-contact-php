@@ -28,6 +28,18 @@ class DummyStore implements StoreInterface
     public function createEntry(array $data)
     {
         $this->logger->info("Received", ['data' => $data]);
-        return new FormEntry($data, $this->logger);
+        return new FormEntry($data, $this);
+    }
+
+    /**
+     * Save a form entry
+     *
+     * @param array $data Array of user data
+     * @return boolean
+     */
+    public function saveEntry(array $data)
+    {
+        $this->logger->info("Saving...", ['data' => $data]);
+        return true;
     }
 }
