@@ -34,17 +34,18 @@ $app->post('/', function ($request, $response) {
         // It can throw exception, catched by the error handler
         $entry->save();
 
-        // Do or enqueue addictional actions/hooks:
-        //  - send message to owner
-        //  - send message to user
-        //  - other hooks (newsletter, webhook)
+        // Notify a 'message.saved' event to registered listeners
+        // (i.e owner/user notification, newsletter subscription, webhooks, etc)
+        $this->dispatcher->dispatch(
+            BZContact\Form\Event\MessageSavedEvent::NAME,
+            new BZContact\Form\Event\MessageSavedEvent($data)
+        );
 
         // Redirect to thank you
         // return $response->withStatus(302)->withHeader('Location', 'http://example.com/thankyou.html');
         return $this->renderer->render($response, 'thankyou.phtml');
     }
     $this->form->setErrorStore(new BZContact\Form\ErrorStore($this->validator->errors()));
-    // var_dump($this->validator->errors());
 
     // (default) Render index view, with errors if present
     return $this->renderer->render($response, 'index.phtml', [

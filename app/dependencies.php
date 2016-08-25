@@ -52,6 +52,12 @@ $container['store'] = function ($c) use ($container) {
     return $store;
 };
 
+// event dispatcher
+$container['dispatcher'] = function ($c) use ($container) {
+    $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+    return $dispatcher;
+};
+
 // error handler
 $container['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {

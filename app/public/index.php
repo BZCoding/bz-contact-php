@@ -23,6 +23,9 @@ require __DIR__ . '/../dependencies.php';
 // Register middleware
 require __DIR__ . '/../middleware.php';
 
+// Register events
+require __DIR__ . '/../events.php';
+
 // Register routes
 require __DIR__ . '/../routes.php';
 
