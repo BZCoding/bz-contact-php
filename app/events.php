@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\Event;
 use BZContact\Form\Event\MessageSavedEvent;
 
 $container = $app->getContainer();
-$dispatcher = $container['dispatcher'];
+$dispatcher = $container->get('dispatcher');
 
 // e.g. Add Subscriber
 // $dispatcher->addSubscriber(new My\Event\Subscriber);
@@ -30,6 +30,24 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
     $message = $event->getMessage();
     $logger->info('Message Saved', ['message' => $message]);
 
+    $mailer = $container->get('mailer');
+    $settings = $container->get('settings')['mailer'];
+
     // Send message to application owner
+    //  - TODO add other form details
+    $mailer->send([
+        'from' => $settings['from'], // Use $message['name'] with BZ address
+        'to' => $settings['to'],
+        'reply_to' => $message['email'],
+        'subject' => $settings['subject'] . $message['subject'],
+        'body' => $message['message']
+    ]);
     // Sent thank you message to user
+    $mailer->send([
+        'from' => $settings['from'], // Use $message['name'] with BZ address
+        'to' => $message['email'],
+        'reply_to' => $settings['reply_to'],
+        'subject' => 'Thank you',
+        'body' => 'Thank you for your message!'
+    ]);
 });

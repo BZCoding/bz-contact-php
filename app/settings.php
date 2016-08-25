@@ -15,5 +15,12 @@ return [
             // 'path' => 'php://stderr',
             'path' => '/tmp/bzcontact.log',
         ],
+
+        'mailer' => [
+            'from' => 'hello@example.com', // who should send notification
+            'to' => 'admin@example.com', // who should receive notification
+            'reply_to' => 'admin@example.com', // who should receive responses
+            'subject' => '[BZ Contact] ', // subject prefix
+        ],
     ],
 ];

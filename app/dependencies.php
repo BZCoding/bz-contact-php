@@ -58,6 +58,12 @@ $container['dispatcher'] = function ($c) {
     return $dispatcher;
 };
 
+// event mailer
+$container['mailer'] = function ($c) {
+    $mailer = new BZContact\Mailer\DummyMailer($c->get('logger'));
+    return $mailer;
+};
+
 // error handler
 $container['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {
