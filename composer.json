@@ -33,7 +33,8 @@
         "vlucas/valitron": "^1.2",
         "akrabat/rka-ip-address-middleware": "^0.4.0",
         "sokil/php-mongo": "^1.18",
-        "symfony/event-dispatcher": "^3.1"
+        "symfony/event-dispatcher": "^3.1",
+        "swiftmailer/swiftmailer": "^5.4"
     },
     "archive": {
         "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]

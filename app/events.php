@@ -36,7 +36,7 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
     // Send message to application owner
     //  - TODO add other form details
     $mailer->send([
-        'from' => $settings['from'], // Use $message['name'] with BZ address
+        'from' => [$settings['from']['email'] => $message['name']],
         'to' => $settings['to'],
         'reply_to' => $message['email'],
         'subject' => $settings['subject'] . $message['subject'],
@@ -44,8 +44,8 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
     ]);
     // Sent thank you message to user
     $mailer->send([
-        'from' => $settings['from'], // Use $message['name'] with BZ address
-        'to' => $message['email'],
+        'from' => [$settings['from']['email'] => $settings['from']['name']],
+        'to' => [$message['email'] => $message['name']],
         'reply_to' => $settings['reply_to'],
         'subject' => 'Thank you',
         'body' => 'Thank you for your message!'
