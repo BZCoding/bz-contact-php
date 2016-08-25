@@ -26,6 +26,10 @@ $app->post('/', function ($request, $response) {
         // Filter data that we don't want to be saved in database
         $data = $this->form->filter($data);
 
+        // Add IP address and timestamp
+        $data['ip'] = $request->getAttribute('ip_address');
+        $data['datetime'] = date('Y-m-d H:i:s');
+
         // Save entry to database
 
         // A Form\Store\StoreInterface object creates a Form\Store\FormEntryInterface object
