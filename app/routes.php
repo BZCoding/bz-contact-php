@@ -33,6 +33,7 @@ $app->post('/', function ($request, $response) {
 
         // It can throw exception, catched by the error handler
         $entry->save();
+        $data = $entry->getData();
 
         // Notify a 'message.saved' event to registered listeners
         // (i.e owner/user notification, newsletter subscription, webhooks, etc)

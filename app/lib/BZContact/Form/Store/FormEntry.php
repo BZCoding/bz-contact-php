@@ -30,6 +30,16 @@ class FormEntry implements FormEntryInterface
      */
     public function save()
     {
-        return $this->store->saveEntry($this->data);
+        $result = $this->store->saveEntry($this->data);
+        // Fix for MongoDB '_id' field
+        if (isset($this->data['_id']->{'$id'})) {
+            $this->data['id'] = $this->data['_id']->{'$id'};
+            unset($this->data['_id']);
+        }
+        return $result;
+    }
+    public function getData()
+    {
+        return $this->data;
     }
 }
