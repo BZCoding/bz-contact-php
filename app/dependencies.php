@@ -44,16 +44,16 @@ $container['validator'] = function ($c) {
 };
 
 // form store
-$container['store'] = function ($c) use ($container) {
+$container['store'] = function ($c) {
     $client = new Sokil\Mongo\Client('mongodb://127.0.0.1');
     $client->useDatabase('bzcontact');
     $collection = $client->getCollection('entries');
-    $store = new BZContact\Form\Store\MongoDBStore($collection, $container['logger']);
+    $store = new BZContact\Form\Store\MongoDBStore($collection, $c->get('logger'));
     return $store;
 };
 
 // event dispatcher
-$container['dispatcher'] = function ($c) use ($container) {
+$container['dispatcher'] = function ($c) {
     $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
     return $dispatcher;
 };
