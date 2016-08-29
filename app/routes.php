@@ -16,7 +16,9 @@ $app->post('/', function ($request, $response) {
     $this->logger->info("POST - '/'", ['ip' => $request->getAttribute('ip_address')]);
 
     // Sanitize POSTed data
-    $data = filter_var_array($request->getParsedBody(), FILTER_SANITIZE_STRING);
+    foreach ($request->getParsedBody() as $key => $value) {
+        $data[$key] = filter_var($value, FILTER_SANITIZE_STRING, ['flags' => FILTER_FLAG_NO_ENCODE_QUOTES]);
+    }
     $this->logger->debug("POSTed", ['data' => $data]);
 
     $this->form->setOldInputProvider(new BZContact\Form\OldInputProvider($data));
