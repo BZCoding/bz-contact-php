@@ -1,7 +1,7 @@
 <?php
 return [
     'settings' => [
-        'displayErrorDetails' => ($_ENV['SLIM_MODE'] !== 'production') ? true : false, // set to false in production
+        'displayErrorDetails' => ($_SERVER['SLIM_MODE'] !== 'production') ? true : false, // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
         // Renderer settings
@@ -12,29 +12,29 @@ return [
         // Monolog settings
         'logger' => [
             'name' => 'bz-contact',
-            'path' => ($_ENV['LOG_PATH']) ? $_ENV['LOG_PATH'] : 'php://stdout',
+            'path' => ($_SERVER['LOG_PATH']) ? $_SERVER['LOG_PATH'] : 'php://stdout',
         ],
 
         'database' => [
-            'host' => $_ENV['DATABASE_HOST'], // i.e mongodb://1.2.3.4:27017
-            'name' => $_ENV['DATABASE_NAME'],
-            'collection' => $_ENV['DATABASE_COLLECTION'],
-            'username' => $_ENV['DATABASE_USERNAME'],
-            'password' => $_ENV['DATABASE_PASSWORD']
+            'host' => $_SERVER['DATABASE_HOST'], // i.e mongodb://1.2.3.4:27017
+            'name' => $_SERVER['DATABASE_NAME'],
+            'collection' => $_SERVER['DATABASE_COLLECTION'],
+            'username' => ($_SERVER['DATABASE_USERNAME']) ? $_SERVER['DATABASE_USERNAME'] : null,
+            'password' => ($_SERVER['DATABASE_PASSWORD']) ? $_SERVER['DATABASE_PASSWORD'] : null
         ],
 
         'mailer' => [
             'from' => [
-                'email' => $_ENV['MAILER_FROM_EMAIL'],
-                'name' => $_ENV['MAILER_FROM_NAME']
+                'email' => $_SERVER['MAILER_FROM_EMAIL'],
+                'name' => $_SERVER['MAILER_FROM_NAME']
             ], // who should send notification
-            'to' => $_ENV['MAILER_ADMIN_EMAIL'], // who should receive notification
-            'reply_to' => $_ENV['MAILER_ADMIN_EMAIL'], // who should receive responses
-            'subject' => $_ENV['MAILER_SUBJECT'], // subject prefix
-            'host' => $_ENV['MAILER_HOST'], // Mailcatcher on Vagrant host
-            'port' => $_ENV['MAILER_PORT'],
-            'username' => $_ENV['MAILER_USERNAME'],
-            'password' => $_ENV['MAILER_PASSWORD']
+            'to' => $_SERVER['MAILER_ADMIN_EMAIL'], // who should receive notification
+            'reply_to' => $_SERVER['MAILER_ADMIN_EMAIL'], // who should receive responses
+            'subject' => $_SERVER['MAILER_SUBJECT'], // subject prefix
+            'host' => $_SERVER['MAILER_HOST'], // Mailcatcher on Vagrant host
+            'port' => $_SERVER['MAILER_PORT'],
+            'username' => ($_SERVER['MAILER_USERNAME']) ? $_SERVER['MAILER_USERNAME'] : null,
+            'password' => ($_SERVER['MAILER_PASSWORD']) ? $_SERVER['MAILER_PASSWORD'] : null
         ],
     ],
 ];

@@ -9,7 +9,53 @@
     become_method: "sudo"
 
     # Customize vars for Apache, PHP or MySQL (see mysql playbook)
-    # vars:
+    vars:
+      app_env_vars:
+        - name: SLIM_MODE
+          value: development
+
+        - name: LOG_PATH
+          value: /tmp/bzcontact.log
+
+        - name: MAILER_FROM_NAME
+          value: BZ Contact at Example Inc
+
+        - name: MAILER_FROM_EMAIL
+          value: hello@example.com
+
+        - name: MAILER_ADMIN_EMAIL
+          value: admin@example.com
+
+        # Subject prefix, a space will be added
+        - name: MAILER_SUBJECT
+          value: '[BZ Contact]'
+
+        - name: MAILER_HOST
+          value: 10.0.2.2
+
+        - name: MAILER_PORT
+          value: 1025
+
+        # - name: MAILER_USERNAME
+        #   value: foo
+        #
+        # - name: MAILER_PASSWORD
+        #   value: bar
+
+        - name: DATABASE_HOST
+          value: mongodb://127.0.0.1:27017
+
+        - name: DATABASE_NAME
+          value: bzcontact
+
+        - name: DATABASE_COLLECTION
+          value: entries
+
+        # - name: DATABASE_USERNAME
+        #   value: foo
+        #
+        # - name: DATABASE_PASSWORD
+        #   value: bar
 
     roles:
       - { role: php-apache2, tags: ['php','apache2'] }
@@ -21,7 +67,7 @@
 
       # Add Apache tasks here
       - name: copy app vhost file
-        copy:
+        template:
           src: etc/apache2/vhost.conf
           dest: /etc/apache2/sites-available/000-bzcontact.conf
           owner: root
