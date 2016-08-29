@@ -45,9 +45,10 @@ $container['validator'] = function ($c) {
 
 // form store
 $container['store'] = function ($c) {
-    $client = new Sokil\Mongo\Client('mongodb://127.0.0.1');
-    $client->useDatabase('bzcontact');
-    $collection = $client->getCollection('entries');
+    $settings = $c->get('settings')['database'];
+    $client = new Sokil\Mongo\Client($settings['host']);
+    $client->useDatabase($settings['name']);
+    $collection = $client->getCollection($settings['collection']);
     $store = new BZContact\Form\Store\MongoDBStore($collection, $c->get('logger'));
     return $store;
 };

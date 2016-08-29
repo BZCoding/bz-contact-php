@@ -39,7 +39,7 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
         'from' => [$settings['from']['email'] => $message['name']],
         'to' => $settings['to'],
         'reply_to' => $message['email'],
-        'subject' => $settings['subject'] . $message['subject'],
+        'subject' => $settings['subject'] . ' ' . $message['subject'],
         'body' => $message['message']
     ]);
     // Sent thank you message to user
