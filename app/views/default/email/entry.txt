@@ -1,8 +1,8 @@
-<?=($entry['message']) ? $entry['message'] : 'Empty message body', "\n"?>
+<?=(!empty($entry['message'])) ? $entry['message'] : 'Empty message body', "\n"?>
 
 ------------
 
-Date/Time:  <?=($entry['datetime']) ? $entry['datetime'] : 'n.a', "\n"?>
-IP Address: <?=($entry['ip']) ? $entry['ip'] : 'n.a', "\n"?>
-Referer:    <?=($entry['referer']) ? $entry['referer'] : 'n.a', "\n"?>
-Domain:     <?=($entry['domain']) ? $entry['domain'] : 'n.a', "\n"?>
+Date/Time:  <?=(!empty($entry['datetime'])) ? $entry['datetime'] : 'n.a', "\n"?>
+IP Address: <?=(!empty($entry['ip'])) ? $entry['ip'] : 'n.a', "\n"?>
+Referer:    <?=(!empty($entry['referer'])) ? $entry['referer'] : 'n.a', "\n"?>
+Domain:     <?=(!empty($entry['domain'])) ? $entry['domain'] : 'n.a', "\n"?>
