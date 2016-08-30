@@ -13,6 +13,11 @@
     user: "{{ rabbitmq_admin_username }}"
     password: "{{ rabbitmq_admin_password }}"
     tags: administrator
+    permissions:
+      - vhost: '/'
+        configure_priv: '.*'
+        read_priv: '.*'
+        write_priv: '.*'
     state: present
   notify: restart rabbitmq
 
