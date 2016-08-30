@@ -36,6 +36,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     jessie.vm.network :forwarded_port, guest: 443, host: 8443, auto_correct: true
     jessie.vm.network :forwarded_port, guest: 27017, host: 27017, auto_correct: true
 
+    # RabbitMQ ports (AMQP + Management)
+    # NB: guest/guest user can only connect via localhost
+    jessie.vm.network :forwarded_port, guest: 5671, host: 5671, auto_correct: true
+    jessie.vm.network :forwarded_port, guest: 5672, host: 5672, auto_correct: true
+    jessie.vm.network :forwarded_port, guest: 15672, host: 15672, auto_correct: true
+
     # Disable default Vagrant share, turn it on only when needed (ie copy large files)
     jessie.vm.synced_folder ".", "/app",
       disabled: false,
@@ -84,7 +90,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.host_vars = {
         PROJECT => {
           # Local development specific settings
-          "mongodb_bind_address" => "0.0.0.0" # Expose MongoDB to the world
+          "mongodb_bind_address" => "0.0.0.0", # Expose MongoDB to the world
+          "rabbitmq_admin_username" => "admin",
+          "rabbitmq_admin_password" => "vagrant"
         }
       }
 

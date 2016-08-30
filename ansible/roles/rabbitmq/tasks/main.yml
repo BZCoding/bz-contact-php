@@ -1,0 +1,24 @@
+---
+
+- name: Debian | install packages
+  apt: pkg={{ item }} state=installed
+  with_items: "{{ rabbitmq_packages }}"
+  register: rabbitmq_install
+
+- name: ensure rabbitmq is started
+  service: name={{ rabbitmq_service_name }} state=started enabled=yes
+
+- name: create admin user
+  rabbitmq_user:
+    user: "{{ rabbitmq_admin_username }}"
+    password: "{{ rabbitmq_admin_password }}"
+    tags: administrator
+    state: present
+  notify: restart rabbitmq
+
+# Enables the rabbitmq_management plugin
+- name: ensure rabbitmq management plugin is enabled
+  rabbitmq_plugin:
+    names: rabbitmq_management
+    state: enabled
+  notify: restart rabbitmq

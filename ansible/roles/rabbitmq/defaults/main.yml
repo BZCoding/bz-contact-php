@@ -1,0 +1,9 @@
+---
+# defaults file for RabbitMQ on Ubuntu/Debian
+
+# Debian vars
+rabbitmq_service_name: "rabbitmq-server"
+rabbitmq_admin_username: admin
+rabbitmq_admin_password: changeit
+rabbitmq_packages:
+  - rabbitmq-server

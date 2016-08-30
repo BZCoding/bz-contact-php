@@ -64,6 +64,7 @@
     roles:
       - { role: php-apache2, tags: ['php','apache2'] }
       - { role: mongodb, tags: ['mongodb'] }
+      - { role: rabbitmq, tags: ['rabbitmq'] }
 
     tasks:
 
