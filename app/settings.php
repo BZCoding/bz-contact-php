@@ -31,6 +31,7 @@ return [
             'to' => $_SERVER['MAILER_ADMIN_EMAIL'], // who should receive notification
             'reply_to' => $_SERVER['MAILER_ADMIN_EMAIL'], // who should receive responses
             'subject' => $_SERVER['MAILER_SUBJECT'], // subject prefix
+            'thankyou_subject' => $_SERVER['MAILER_THANKYOU_SUBJECT'], // full subject
             'host' => $_SERVER['MAILER_HOST'], // Mailcatcher on Vagrant host
             'port' => $_SERVER['MAILER_PORT'],
             'username' => ($_SERVER['MAILER_USERNAME']) ? $_SERVER['MAILER_USERNAME'] : null,

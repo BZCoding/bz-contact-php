@@ -1,0 +1,11 @@
+Hi<?=($name) ? ' ' . $name : ''?>,
+
+Thank you for getting in touch!
+
+We just want you to know that we got your message and
+we'll contact you as soon as possible.
+
+Have a nice day
+
+--
+The Team @ BZ Contact

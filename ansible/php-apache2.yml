@@ -30,6 +30,10 @@
         - name: MAILER_SUBJECT
           value: '[BZ Contact]'
 
+        # Full subject
+        - name: MAILER_THANKYOU_SUBJECT
+          value: Thank you for reaching out!
+
         - name: MAILER_HOST
           value: 10.0.2.2
 

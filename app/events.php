@@ -34,20 +34,23 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
     $settings = $container->get('settings')['mailer'];
 
     // Send message to application owner
-    //  - TODO add other form details
     $mailer->send([
         'from' => [$settings['from']['email'] => $message['name']],
         'to' => $settings['to'],
         'reply_to' => $message['email'],
         'subject' => $settings['subject'] . ' ' . $message['subject'],
-        'body' => $message['message']
+        'body' => $container->get('renderer')->fetch('email/entry.txt', ['entry' => $message])
     ]);
+
     // Sent thank you message to user
     $mailer->send([
         'from' => [$settings['from']['email'] => $settings['from']['name']],
         'to' => [$message['email'] => $message['name']],
         'reply_to' => $settings['reply_to'],
-        'subject' => 'Thank you',
-        'body' => 'Thank you for your message!'
+        'subject' => $settings['thankyou_subject'],
+        'body' => $container->get('renderer')->fetch(
+            'email/thankyou.txt',
+            ['name' => explode(' ', $message['name'])[0]] // Pass only the first name
+        )
     ]);
 });
