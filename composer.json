@@ -35,7 +35,8 @@
         "sokil/php-mongo": "^1.18",
         "symfony/event-dispatcher": "^3.1",
         "swiftmailer/swiftmailer": "^5.4",
-        "vlucas/phpdotenv": "^2.3"
+        "vlucas/phpdotenv": "^2.3",
+        "php-amqplib/php-amqplib": "^2.6"
     },
     "archive": {
         "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]

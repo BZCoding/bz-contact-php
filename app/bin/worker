@@ -1,0 +1,77 @@
+#!/usr/bin/env php
+<?php
+namespace BZContact;
+
+use Dotenv\Dotenv;
+use Slim\App;
+
+if (PHP_SAPI !== 'cli') {
+    echo "[error] this is a console program!\n";
+    exit(1);
+}
+
+require __DIR__ . '/../../vendor/autoload.php';
+
+// Load Environment
+$envFile = dirname(__FILE__) . '/../../.env';
+if (is_readable($envFile)) {
+    $dotenv = new Dotenv(dirname($envFile));
+    $dotenv->load();
+}
+
+// Instantiate the app
+$settings = require __DIR__ . '/../settings.php';
+$app = new App($settings);
+
+// Set up dependencies
+require __DIR__ . '/../dependencies.php';
+
+// Register events
+require __DIR__ . '/../events.php';
+
+$container = $app->getContainer();
+
+$amqp = $container->get('amqp');
+$channel = $amqp->channel();
+$queue = $container->get('settings')['amqp']['queue'];
+
+// name: $queue
+// passive: false
+// durable: true // the queue will survive server restarts
+// exclusive: false // the queue can be accessed in other channels
+// auto_delete: false //the queue won't be deleted once the channel is closed.
+$channel->queue_declare($queue, false, true, false, false);
+
+$container->get('logger')->info('Ready for messages...');
+
+$channel->basic_qos(null, 1, null);
+
+// queue: Queue from where to get the messages
+// consumer_tag: Consumer identifier
+// no_local: Don't receive messages published by this consumer.
+// no_ack: Tells the server if the consumer will acknowledge the messages.
+// exclusive: Request exclusive consumer access, meaning only this consumer can access the queue
+// nowait:
+// callback: A PHP Callback
+$channel->basic_consume($queue, '', false, false, false, false, function ($msg) use ($container) {
+    $logger = $container->get('logger');
+    $logger->info('Received message', ['message' => $msg]);
+});
+
+/**
+ * @param \PhpAmqpLib\Channel\AMQPChannel $channel
+ * @param \PhpAmqpLib\Connection\AbstractConnection $connection
+ */
+register_shutdown_function(function ($channel, $connection) {
+    $container->get('logger')->info('Closing connections...');
+    $channel->close();
+    $connection->close();
+    $container->get('logger')->info('Connections closed, exit.');
+}, $channel, $amqp);
+
+// loop over incoming messages
+while(count($channel->callbacks)) {
+    $channel->wait();
+}
+
+echo "Hello World!\n";

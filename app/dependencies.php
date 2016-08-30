@@ -70,6 +70,19 @@ $container['mailer'] = function ($c) {
     return $mailer;
 };
 
+// queue provider
+$container['amqp'] = function ($c) {
+    $settings = $c->get('settings')['amqp'];
+    $amqp = new PhpAmqpLib\Connection\AMQPStreamConnection(
+        $settings['host'],
+        $settings['port'],
+        $settings['username'],
+        $settings['password'],
+        $settings['vhost']
+    );
+    return $amqp;
+};
+
 // error handler
 $container['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {
