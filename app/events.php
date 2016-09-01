@@ -10,7 +10,6 @@ namespace BZContact\Form;
 
 use Symfony\Component\EventDispatcher\Event;
 use BZContact\Form\Event\MessageSavedEvent;
-use PhpAmqpLib\Message\AMQPMessage;
 
 $container = $app->getContainer();
 $dispatcher = $container->get('dispatcher');
@@ -38,5 +37,4 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
 
     // Sent thank you message to user
     $mailer->sendSubscriberNotification($message);
-
 });

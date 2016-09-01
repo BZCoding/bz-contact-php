@@ -61,12 +61,7 @@ $container['dispatcher'] = function ($c) {
 
 // event mailer
 $container['mailer'] = function ($c) {
-    $settings = $c->get('settings')['mailer'];
-    $transport = \Swift_SmtpTransport::newInstance($settings['host'], $settings['port'])
-        ->setUsername($settings['username'])
-        ->setPassword($settings['password']);
-    $swiftMailer = \Swift_Mailer::newInstance($transport);
-    $mailer = new BZContact\Mailer\SwiftMailer($swiftMailer, $c);
+    $mailer = new BZContact\Mailer\QueueMailer($c);
     return $mailer;
 };
 
