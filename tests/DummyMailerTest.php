@@ -10,8 +10,10 @@ class DummyMailerTest extends TestCase
         $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
         $logger->expects($this->any())->method('info')->willReturn(true);
 
+        $message = ['id' => 'abc'];
         $mailer = new Mailer\DummyMailer($logger);
         $this->assertInstanceOf(Mailer\DummyMailer::class, $mailer);
-        $this->assertTrue($mailer->send([]));
+        $this->assertTrue($mailer->sendAdminNotification($message));
+        $this->assertTrue($mailer->sendSubscriberNotification($message));
     }
 }

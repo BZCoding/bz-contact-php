@@ -66,7 +66,7 @@ $container['mailer'] = function ($c) {
         ->setUsername($settings['username'])
         ->setPassword($settings['password']);
     $swiftMailer = \Swift_Mailer::newInstance($transport);
-    $mailer = new BZContact\Mailer\SwiftMailer($swiftMailer, $c->get('logger'));
+    $mailer = new BZContact\Mailer\SwiftMailer($swiftMailer, $c);
     return $mailer;
 };
 

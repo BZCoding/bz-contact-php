@@ -10,6 +10,7 @@ namespace BZContact\Form;
 
 use Symfony\Component\EventDispatcher\Event;
 use BZContact\Form\Event\MessageSavedEvent;
+use PhpAmqpLib\Message\AMQPMessage;
 
 $container = $app->getContainer();
 $dispatcher = $container->get('dispatcher');
@@ -28,29 +29,14 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
 
     $logger = $container->get('logger');
     $message = $event->getMessage();
-    $logger->info('Message Saved', ['message' => $message]);
+    $logger->info('Event - Message saved', ['id' => $message['id']]);
 
     $mailer = $container->get('mailer');
-    $settings = $container->get('settings')['mailer'];
 
     // Send message to application owner
-    $mailer->send([
-        'from' => [$settings['from']['email'] => $message['name']],
-        'to' => $settings['to'],
-        'reply_to' => $message['email'],
-        'subject' => $settings['subject'] . ' ' . $message['subject'],
-        'body' => $container->get('renderer')->fetch('email/entry.txt', ['entry' => $message])
-    ]);
+    $mailer->sendAdminNotification($message);
 
     // Sent thank you message to user
-    $mailer->send([
-        'from' => [$settings['from']['email'] => $settings['from']['name']],
-        'to' => [$message['email'] => $message['name']],
-        'reply_to' => $settings['reply_to'],
-        'subject' => $settings['thankyou_subject'],
-        'body' => $container->get('renderer')->fetch(
-            'email/thankyou.txt',
-            ['name' => explode(' ', $message['name'])[0]] // Pass only the first name
-        )
-    ]);
+    $mailer->sendSubscriberNotification($message);
+
 });
