@@ -4,6 +4,7 @@ namespace BZContact;
 
 use Dotenv\Dotenv;
 use Slim\App;
+use Slim\Exception\ContainerValueNotFoundException;
 
 if (PHP_SAPI !== 'cli') {
     echo "[error] this is a console program!\n";
@@ -23,13 +24,22 @@ if (is_readable($envFile)) {
 $settings = require __DIR__ . '/../settings.php';
 $app = new App($settings);
 
-// Set up dependencies
+// Set up dependencies, defines $container variable
 require __DIR__ . '/../dependencies.php';
 
-// Register events
-require __DIR__ . '/../events.php';
+// Override mailer with Swift Mailer
+$container['mailer'] = function ($c) {
+    $settings = $c->get('settings')['mailer'];
+    $transport = \Swift_SmtpTransport::newInstance($settings['host'], $settings['port'])
+        ->setUsername($settings['username'])
+        ->setPassword($settings['password']);
+    $swiftMailer = \Swift_Mailer::newInstance($transport);
+    $mailer = new Mailer\SwiftMailer($swiftMailer, $c);
+    return $mailer;
+};
 
-$container = $app->getContainer();
+// Register actions
+require __DIR__ . '/../actions.php';
 
 $amqp = $container->get('amqp');
 $channel = $amqp->channel();
@@ -44,6 +54,7 @@ $channel->queue_declare($queue, false, true, false, false);
 
 $container->get('logger')->info('Ready for messages...');
 
+// This tells RabbitMQ not to give more than one message to a worker at a time
 $channel->basic_qos(null, 1, null);
 
 // queue: Queue from where to get the messages
@@ -55,14 +66,55 @@ $channel->basic_qos(null, 1, null);
 // callback: A PHP Callback
 $channel->basic_consume($queue, '', false, false, false, false, function ($msg) use ($container) {
     $logger = $container->get('logger');
-    $logger->info('Received message', ['message' => $msg]);
+
+    // Parse message payload
+    $payload = json_decode($msg->body, true);
+
+    // ACK and stop if payload is not valid
+    if (JSON_ERROR_NONE !== json_last_error()) {
+        $logger->error("Invalid JSON payload", ['error' => json_last_error_msg()]);
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+        return;
+    }
+
+    // ACK and stop if payload does not contain an action
+    if (empty($payload['action'])) {
+        $logger->error("No action");
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+        return;
+    }
+
+    // Do long stuff here...
+    try {
+        $logger->info('Processing action', ['action' => $payload['action']]);
+        $action = $container->get('action-' . $payload['action']);
+        if (!is_callable($action)) {
+            $logger->error("Invalid action handler", ['action' => $payload['action']]);
+            // No ACK, another worker could have the handler...
+        }
+
+        // ACK if action is successful
+        if (true === $action($payload)) {
+            // If all right, send an ACK, if not the message will be sent to another worker
+            $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+        }
+    } catch (ContainerValueNotFoundException $e) {
+        $logger->error("Action not available", ['action' => $payload['action']]);
+        // No ACK, another worker could have the handler...
+    } catch (\InvalidArgumentException $e) {
+        // Right action wrong arguments, ACK and notify the error
+        $logger->error($e->getMessage());
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+    } catch (\Exception $e) {
+        $logger->error($e->getMessage());
+    }
 });
 
 /**
  * @param \PhpAmqpLib\Channel\AMQPChannel $channel
  * @param \PhpAmqpLib\Connection\AbstractConnection $connection
  */
-register_shutdown_function(function ($channel, $connection) {
+register_shutdown_function(function ($channel, $connection) use ($container) {
     $container->get('logger')->info('Closing connections...');
     $channel->close();
     $connection->close();
@@ -73,5 +125,3 @@ register_shutdown_function(function ($channel, $connection) {
 while(count($channel->callbacks)) {
     $channel->wait();
 }
-
-echo "Hello World!\n";
