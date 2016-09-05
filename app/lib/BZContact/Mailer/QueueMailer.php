@@ -15,6 +15,7 @@ class QueueMailer implements MailerInterface
 {
     protected $container = null;
     protected $logger = null;
+    protected $amqp = null;
 
     /**
      * Construct a Queue Mailer
@@ -25,7 +26,13 @@ class QueueMailer implements MailerInterface
     public function __construct(ContainerInterface $container)
     {
         $this->logger = $container->get('logger');
+        $this->amqp = $container->get('amqp');
         $this->container = $container;
+    }
+
+    public function __destruct()
+    {
+        $this->amqp->close();
     }
 
     /**
@@ -43,8 +50,7 @@ class QueueMailer implements MailerInterface
         $this->logger->info("Enqueueing message", ['id' => $data['id']]);
 
         // Get queue provider
-        $amqp = $this->container->get('amqp');
-        $channel = $amqp->channel();
+        $channel = $this->amqp->channel();
 
         // Declare a durable queue (3rd arg set to TRUE)
         $queue = $this->container->get('settings')['amqp']['queue'];
@@ -63,7 +69,6 @@ class QueueMailer implements MailerInterface
 
         // Close the channels
         $channel->close();
-        // $amqp->close();
 
         return true;
     }
