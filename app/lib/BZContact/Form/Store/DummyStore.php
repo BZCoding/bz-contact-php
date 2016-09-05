@@ -42,4 +42,15 @@ class DummyStore implements StoreInterface
         $this->logger->info("Saving...", ['data' => $data]);
         return true;
     }
+
+    /**
+     * Load a mock form entry
+     *
+     * @param string $id Document id
+     * @return array
+     */
+    public function getEntry($id)
+    {
+        return ['id' => $id];
+    }
 }

@@ -17,5 +17,8 @@ class DummyStoreTest extends TestCase
         $this->assertInstanceOf(Form\Store\FormEntryInterface::class, $entry);
         $this->assertTrue($entry->save());
         $this->assertInternalType('array', $entry->getData());
+
+        $entry = $store->getEntry('abc');
+        $this->assertInternalType('array', $entry);
     }
 }

@@ -8,10 +8,10 @@ class MongoDBStoreTest extends TestCase
     public function testNewStore()
     {
         $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
-        $logger->expects($this->any())->method('info')->willReturn(true);
+        $logger->method('info')->willReturn(true);
 
         $collection = $this->createMock(\Sokil\Mongo\Collection::class);
-        $collection->expects($this->any())->method('insert')->willReturn(true);
+        $collection->method('insert')->willReturn(true);
 
         $store = new Form\Store\MongoDBStore($collection, $logger);
         $this->assertInstanceOf(Form\Store\MongoDBStore::class, $store);
@@ -19,5 +19,13 @@ class MongoDBStoreTest extends TestCase
         $entry = $store->createEntry([]);
         $this->assertInstanceOf(Form\Store\FormEntryInterface::class, $entry);
         $this->assertTrue($entry->save());
+
+        $document = new \stdClass();
+        $document_id = new \stdClass();
+        $document_id->{'$id'} = 'abc';
+        $document->_id = $document_id;
+        $collection->method('getDocument')->willReturn($document);
+        $entry = $store->getEntry('abc');
+        $this->assertInternalType('array', $entry);
     }
 }

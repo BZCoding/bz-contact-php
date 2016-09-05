@@ -46,4 +46,20 @@ class MongoDBStore implements StoreInterface
         $this->collection->insert($data);
         return true;
     }
+
+    /**
+     * Load a form entry from a MongoDB collection
+     *
+     * @param string $id Document id
+     * @return array
+     * @throws Sokil\Mongo\Exception
+     */
+    public function getEntry($id)
+    {
+        $entry = $this->collection->getDocument($id);
+        $data = json_decode(json_encode($entry), true);
+        $data['id'] = $entry->_id->{'$id'};
+        unset($data['_id']);
+        return $data;
+    }
 }
