@@ -34,7 +34,6 @@ class SwiftMailer implements MailerInterface
      */
     public function send(array $data)
     {
-        $this->logger->debug("Sending mail", ['data' => $data]);
         $message = Swift_Message::newInstance($data['subject'])
             ->setFrom($data['from'])
             ->setTo($data['to'])
