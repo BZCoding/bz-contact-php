@@ -78,6 +78,13 @@ $container['amqp'] = function ($c) {
     return $amqp;
 };
 
+// newsletter engine
+$container['newsletter'] = function ($c) {
+    $settings = $c->get('settings')['newsletter'];
+    $newsletter = new DrewM\MailChimp\MailChimp($settings['api_key']);
+    return $newsletter;
+};
+
 // error handler
 $container['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {

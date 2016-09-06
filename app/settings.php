@@ -46,5 +46,33 @@ return [
             'vhost' => $_SERVER['AMQP_VHOST'],
             'queue' => $_SERVER['AMQP_QUEUE'],
         ],
+
+        'newsletter' => [
+            'api_key' => $_SERVER['NEWSLETTER_API_KEY'],
+            'list_id' => $_SERVER['NEWSLETTER_LIST_ID'],
+            // Map between MailChimp list fields (keys) and form field names (value)
+            // The value can be a function that processes the field value
+            'merge_fields' => [
+                'FNAME' => [
+                    function ($field) {
+                        return explode(' ', $field)[0];
+                    },
+                    'name'
+                ],
+                'LNAME' => [
+                    function ($field) {
+                        $f = explode(' ', $field);
+                        return !empty($f[1]) ? $f[1] : '';
+                    },
+                    'name'
+                ],
+                'SIGNUP' => [
+                    'string',
+                    isset($_SERVER['NEWSLETTER_MERGE_SIGNUP'])
+                        ? $_SERVER['NEWSLETTER_MERGE_SIGNUP'] : 'bzcontact_form'
+                ],
+                'COMPANY' => 'company'
+            ]
+        ],
     ],
 ];
