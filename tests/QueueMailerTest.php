@@ -10,26 +10,20 @@ class QueueMailerTest extends TestCase
         $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
         $logger->method('info')->willReturn(true);
 
-        $channel = $this->createMock(\PhpAmqpLib\Channel\AMQPChannel::class);
-        $channel->method('queue_declare')->willReturn(true);
-        $channel->method('basic_publish')->willReturn(true);
-        $channel->method('close')->willReturn(true);
-
-        $amqp = $this->createMock(\PhpAmqpLib\Connection\AMQPStreamConnection::class);
-        $amqp->method('channel')->willReturn($channel);
-        $amqp->method('close')->willReturn(true);
+        $queue = $this->createMock(\BZContact\Worker\Queue::class);
+        $queue->method('publish')->willReturn(true);
 
         $container = $this->createMock(\Interop\Container\ContainerInterface::class);
         $container->method('get')->will($this->returnValueMap([
             ['logger', $logger],
-            ['amqp', $amqp],
+            ['queue', $queue],
             ['settings', [
                 'amqp' => ['queue' => 'tasks']
             ]]
         ]));
 
         $swiftMailer = $this->createMock(\Swift_Mailer::class);
-        $swiftMailer->expects($this->any())->method('send')->willReturn(1);
+        $swiftMailer->method('send')->willReturn(1);
 
         $message = [
             'id' => '1234Abc',

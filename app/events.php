@@ -45,29 +45,32 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
 
     $logger = $container->get('logger');
     $message = $event->getMessage();
-
-    $amqp = $container->get('amqp');
     $action = 'newsletter-subscribe';
     $logger->info("Enqueueing action", ['action' => $action]);
 
-    // Get queue provider
-    $channel = $amqp->channel();
-
-    // Declare a durable queue (3rd arg set to TRUE)
     $queue = $container->get('settings')['amqp']['queue'];
-    $channel->queue_declare($queue, false, true, false, false);
-    // Create a persistent message payload (delivery_mode = 2):
-    // the message is removed only when the consumer sends an ACK signal
     $payload = [
         'action' => $action,
         'message' => ['id' => $message['id']]
     ];
-    $msg = new \PhpAmqpLib\Message\AMQPMessage(json_encode($payload), ['delivery_mode' => 2]);
+    $container->get('queue')->publish($payload, $queue);
+});
 
-    // Publish the message to queue with an empty consumer tag
-    $channel->basic_publish($msg, '', $queue);
+// Add a webkook event listener
+$dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($container) {
+    // Will be executed when the a message has been successfully saved to store
 
-    // Close the channels
-    $channel->close();
-    $amqp->close();
+    $logger = $container->get('logger');
+    $message = $event->getMessage();
+    $action = 'webhook-post';
+    $logger->info("Enqueueing action", ['action' => $action]);
+
+    $queue = $container->get('settings')['amqp']['queue'];
+    $payload = [
+        'action' => $action,
+        'url' => $container->get('settings')['webhook']['url'],
+        'headers' => $container->get('settings')['webhook']['headers'],
+        'message' => ['id' => $message['id']]
+    ];
+    $container->get('queue')->publish($payload, $queue);
 });

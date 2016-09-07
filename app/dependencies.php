@@ -59,12 +59,6 @@ $container['dispatcher'] = function ($c) {
     return $dispatcher;
 };
 
-// event mailer
-$container['mailer'] = function ($c) {
-    $mailer = new BZContact\Mailer\QueueMailer($c);
-    return $mailer;
-};
-
 // queue provider
 $container['amqp'] = function ($c) {
     $settings = $c->get('settings')['amqp'];
@@ -76,6 +70,18 @@ $container['amqp'] = function ($c) {
         $settings['vhost']
     );
     return $amqp;
+};
+
+// job queue
+$container['queue'] = function ($c) {
+    $queue = new BZContact\Worker\Queue($c);
+    return $queue;
+};
+
+// event mailer
+$container['mailer'] = function ($c) {
+    $mailer = new BZContact\Mailer\QueueMailer($c);
+    return $mailer;
 };
 
 // newsletter engine
