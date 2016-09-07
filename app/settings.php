@@ -74,5 +74,10 @@ return [
                 'COMPANY' => 'company'
             ]
         ],
+
+        'webhook' => [
+            'url' => $_SERVER['WEBHOOK_URL'],
+            'headers' => $_SERVER['WEBHOOK_HEADERS']
+        ],
     ],
 ];

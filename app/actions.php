@@ -110,3 +110,73 @@ $container['action-newsletter-subscribe'] = function ($c) {
         return true;
     };
 };
+
+// Call a web hook
+$container['action-webhook-post'] = function ($c) {
+    return function ($args) use ($c) {
+        $logger = $c->get('logger');
+        $store = $c->get('store');
+
+        // Check that payload is valid for this action
+        if (empty($args['message'])) {
+            throw new \InvalidArgumentException("Missing argument 'message'");
+        }
+        if (empty($args['message']['id'])) {
+            throw new \InvalidArgumentException("Missing argument 'message.id'");
+        }
+        if (empty($args['url'])) {
+            throw new \InvalidArgumentException("Missing argument 'url'");
+        }
+
+        $message = $store->getEntry($args['message']['id']);
+
+        // Parse custom headers
+        $headers = [];
+        if (!empty($args['headers'])) {
+            $hs = explode('|', $args['headers']);
+            if (is_array($hs) && !empty($hs)) {
+                foreach ($hs as $header) {
+                    $h = explode(':', $header);
+                    if (is_array($h) && !empty($h[1])) {
+                        $headers[$h[0]] = $h[1];
+                    }
+                }
+            }
+        }
+
+        $logger->info('Calling web URL', ['url' => $args['url']]);
+        $client = new GuzzleHttp\Client();
+        $request = new GuzzleHttp\Psr7\Request('POST', $args['url']);
+
+        $payload = [];
+        if (!empty($args['message']['action'])) {
+            $payload['action'] = $args['message']['action'];
+        }
+        $payload['created_at'] = date('Y-m-d H:i:s');
+        $payload['data'] = $message;
+
+        try {
+            $response = $client->send($request, [
+                'timeout' => 15,
+                'json' => $payload,
+                'headers' => $headers
+            ]);
+
+            $status = $response->getStatusCode();
+            switch ($status) {
+                case 200:
+                    $logger->info('Webhook - Posted successfully');
+                    break;
+                default:
+                    $logger->error('Webhook - Remote server error', ['status' => $status]);
+                    break;
+            }
+
+            // Always return true and log the errors, else the queue is blocked
+            return true;
+        } catch (GuzzleHttp\Exception\RequestException $e) {
+            $logger->error('Webhook - Timeout expired, retrying later');
+            return false;
+        }
+    };
+};

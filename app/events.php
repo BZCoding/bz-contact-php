@@ -69,8 +69,12 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
     $payload = [
         'action' => $action,
         'url' => $container->get('settings')['webhook']['url'],
-        'headers' => $container->get('settings')['webhook']['headers'],
-        'message' => ['id' => $message['id']]
+        'headers' => implode('|', ['X-BZContact-Event:message', 'X-BZContact-Delivery:' . uniqid('', true)])
+            . '|' . $container->get('settings')['webhook']['headers'],
+        'message' => [
+            'id' => $message['id'],
+            'action' => 'saved'
+        ]
     ];
     $container->get('queue')->publish($payload, $queue);
 });

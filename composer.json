@@ -37,7 +37,8 @@
         "swiftmailer/swiftmailer": "^5.4",
         "vlucas/phpdotenv": "^2.3",
         "php-amqplib/php-amqplib": "^2.6",
-        "drewm/mailchimp-api": "^2.2"
+        "drewm/mailchimp-api": "^2.2",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "archive": {
         "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]
