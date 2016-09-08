@@ -48,8 +48,9 @@ return [
         ],
 
         'newsletter' => [
-            'api_key' => $_SERVER['NEWSLETTER_API_KEY'],
-            'list_id' => $_SERVER['NEWSLETTER_LIST_ID'],
+            'api_key' => !empty($_SERVER['NEWSLETTER_API_KEY']) ? $_SERVER['NEWSLETTER_API_KEY'] : null,
+            'list_id' => !empty($_SERVER['NEWSLETTER_LIST_ID']) ? $_SERVER['NEWSLETTER_LIST_ID'] : null,
+            'enabled' => !empty($_SERVER['NEWSLETTER_API_KEY']) && !empty($_SERVER['NEWSLETTER_LIST_ID']),
             // Map between MailChimp list fields (keys) and form field names (value)
             // The value can be a function that processes the field value
             'merge_fields' => [
@@ -76,8 +77,9 @@ return [
         ],
 
         'webhook' => [
-            'url' => $_SERVER['WEBHOOK_URL'],
-            'headers' => $_SERVER['WEBHOOK_HEADERS']
+            'url' => !empty($_SERVER['WEBHOOK_URL']) ? $_SERVER['WEBHOOK_URL'] : null,
+            'headers' => !empty($_SERVER['WEBHOOK_HEADERS']) ? $_SERVER['WEBHOOK_HEADERS'] : null,
+            'enabled' => !empty($_SERVER['WEBHOOK_URL'])
         ],
     ],
 ];

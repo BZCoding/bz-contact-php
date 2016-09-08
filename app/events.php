@@ -40,41 +40,45 @@ $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($
 });
 
 // Add newsletter event listener
-$dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($container) {
-    // Will be executed when the a message has been successfully saved to store
+if ($container->get('settings')['newsletter']['enabled']) {
+    $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($container) {
+        // Will be executed when the a message has been successfully saved to store
 
-    $logger = $container->get('logger');
-    $message = $event->getMessage();
-    $action = 'newsletter-subscribe';
-    $logger->info("Enqueueing action", ['action' => $action]);
+        $logger = $container->get('logger');
+        $message = $event->getMessage();
+        $action = 'newsletter-subscribe';
+        $logger->info("Enqueueing action", ['action' => $action]);
 
-    $queue = $container->get('settings')['amqp']['queue'];
-    $payload = [
-        'action' => $action,
-        'message' => ['id' => $message['id']]
-    ];
-    $container->get('queue')->publish($payload, $queue);
-});
+        $queue = $container->get('settings')['amqp']['queue'];
+        $payload = [
+            'action' => $action,
+            'message' => ['id' => $message['id']]
+        ];
+        $container->get('queue')->publish($payload, $queue);
+    });
+}
 
 // Add a webkook event listener
-$dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($container) {
-    // Will be executed when the a message has been successfully saved to store
+if ($container->get('settings')['webhook']['enabled']) {
+    $dispatcher->addListener(MessageSavedEvent::NAME, function (Event $event) use ($container) {
+        // Will be executed when the a message has been successfully saved to store
 
-    $logger = $container->get('logger');
-    $message = $event->getMessage();
-    $action = 'webhook-post';
-    $logger->info("Enqueueing action", ['action' => $action]);
+        $logger = $container->get('logger');
+        $message = $event->getMessage();
+        $action = 'webhook-post';
+        $logger->info("Enqueueing action", ['action' => $action]);
 
-    $queue = $container->get('settings')['amqp']['queue'];
-    $payload = [
-        'action' => $action,
-        'url' => $container->get('settings')['webhook']['url'],
-        'headers' => implode('|', ['X-BZContact-Event:message', 'X-BZContact-Delivery:' . uniqid('', true)])
-            . '|' . $container->get('settings')['webhook']['headers'],
-        'message' => [
-            'id' => $message['id'],
-            'action' => 'saved'
-        ]
-    ];
-    $container->get('queue')->publish($payload, $queue);
-});
+        $queue = $container->get('settings')['amqp']['queue'];
+        $payload = [
+            'action' => $action,
+            'url' => $container->get('settings')['webhook']['url'],
+            'headers' => implode('|', ['X-BZContact-Event:message', 'X-BZContact-Delivery:' . uniqid('', true)])
+                . '|' . $container->get('settings')['webhook']['headers'],
+            'message' => [
+                'id' => $message['id'],
+                'action' => 'saved'
+            ]
+        ];
+        $container->get('queue')->publish($payload, $queue);
+    });
+}
