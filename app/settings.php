@@ -4,6 +4,8 @@ return [
         'displayErrorDetails' => ($_SERVER['SLIM_MODE'] !== 'production') ? true : false, // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
+        'redirect_thankyou' => !empty($_SERVER['REDIRECT_THANKYOU']) ? $_SERVER['REDIRECT_THANKYOU'] : false,
+
         // Renderer settings
         'renderer' => [
             'template_path' => __DIR__ . '/views/default/',

@@ -49,7 +49,9 @@ $app->post('/', function ($request, $response) {
         );
 
         // Redirect to thank you
-        // return $response->withStatus(302)->withHeader('Location', 'http://example.com/thankyou.html');
+        if (($thankyou = $this->get('settings')['redirect_thankyou']) && filter_var($thankyou, FILTER_VALIDATE_URL)) {
+            return $response->withStatus(302)->withHeader('Location', 'http://example.com/thankyou.html');
+        }
         return $this->renderer->render($response, 'thankyou.phtml');
     }
     $this->form->setErrorStore(new BZContact\Form\ErrorStore($this->validator->errors()));
