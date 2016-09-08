@@ -91,7 +91,7 @@ $container['newsletter'] = function ($c) {
     return $newsletter;
 };
 
-// error handler
+// server error handler
 $container['errorHandler'] = function ($c) {
     return function ($request, $response, $exception) use ($c) {
 
@@ -99,9 +99,34 @@ $container['errorHandler'] = function ($c) {
         $c->get('logger')->error($exception->getMessage());
 
         // Display nice error template to user
-        // TODO better error/exception template
-        return $c['response']->withStatus(500)
-                             ->withHeader('Content-Type', 'text/html')
-                             ->write('Something went wrong!');
+        return $c->get('renderer')->render(
+            $response->withStatus(500)->withHeader('Content-Type', 'text/html'),
+            'error.phtml',
+            ['support' => $c->get('settings')['mailer']['reply_to']]
+        );
+    };
+};
+
+// 404 error handler
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+
+        // Display nice error template to user
+        return $c->get('renderer')->render(
+            $response->withStatus(404)->withHeader('Content-Type', 'text/html'),
+            '404.phtml',
+            ['support' => $c->get('settings')['mailer']['reply_to']]
+        );
+    };
+};
+
+// 405 (method not allowed) error handler
+$container['notAllowedHandler'] = function ($c) {
+    return function ($request, $response, $methods) use ($c) {
+        return $c['response']
+            ->withStatus(405)
+            ->withHeader('Allow', implode(', ', $methods))
+            ->withHeader('Content-type', 'text/html')
+            ->write('Method must be one of: ' . implode(', ', $methods));
     };
 };
