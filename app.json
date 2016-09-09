@@ -1,0 +1,105 @@
+{
+  "name": "BZ Contact",
+  "description": "An useful contact form application",
+  "keywords": ["php", "contact", "form"],
+  "addons": [
+    {
+      "plan": "mongolab:sandbox",
+      "as": "DATABASE"
+    },
+    {
+      "plan": "cloudamqp:lemur",
+      "as": "AMQP"
+    },
+    {
+      "plan": "postmark:10k",
+      "as": "MAILER"
+    }
+  ],
+  "env": {
+    "SLIM_MODE": {
+      "description": "Application mode, can be 'production' or 'development'",
+      "value": "production"
+    },
+    "MAILER_FROM_NAME": {
+      "description": "Name of the email sender",
+      "value": "BZ Contact at Example Inc"
+    },
+    "MAILER_FROM_EMAIL": {
+      "description": "Email address of the application",
+      "value": "hello@example.com"
+    },
+    "MAILER_ADMIN_EMAIL": {
+      "description": "Admin email address",
+      "value": "admin@example.com"
+    },
+    "MAILER_SUBJECT": {
+      "description": "Subject prefix, a space will be added",
+      "value": "[BZ Contact]"
+    },
+    "MAILER_THANKYOU_SUBJECT": {
+      "description": "Full subject for the thankyou mail",
+      "value": "Thank you for reaching out!"
+    },
+    "MAILER_HOST": {
+      "description": "Mail server host",
+      "value": "localhost"
+    },
+    "MAILER_PORT": {
+      "description": "Mail server port",
+      "value": 1025
+    },
+    "MAILER_USERNAME": {
+      "description": "Mail server username",
+      "value": "foo"
+    },
+    "MAILER_PASSWORD": {
+      "description": "Mail server password",
+      "value": "bar"
+    },
+    "DATABASE_HOST": {
+      "description": "Mongo DB Host",
+      "value": "mongodb://127.0.0.1:27017"
+    },
+    "DATABASE_NAME": {
+      "description": "Mongo DB Database",
+      "value": "bzcontact"
+    },
+    "DATABASE_COLLECTION": {
+      "description": "Mongo DB Collection",
+      "value": "entries"
+    },
+    "DATABASE_USERNAME": {
+      "description": "Mongo DB Username",
+      "value": ""
+    },
+    "DATABASE_PASSWORD": {
+      "description": "Mongo DB Password",
+      "value": ""
+    },
+    "AMQP_HOST": {
+      "description": "Queue server host",
+      "value": "localhost"
+    },
+    "AMQP_PORT": {
+      "description": "Queue server port",
+      "value": 5672
+    },
+    "AMQP_USERNAME": {
+      "description": "Queue server username",
+      "value": "foo"
+    },
+    "AMQP_PASSWORD": {
+      "description": "Queue server password",
+      "value": "bar"
+    },
+    "AMQP_VHOST": {
+      "description": "Queue server vhost",
+      "value": "/"
+    },
+    "AMQP_QUEUE": {
+      "description": "Queue name",
+      "value": "tasks"
+    }
+  }
+}

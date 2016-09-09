@@ -45,6 +45,7 @@
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.6",
-        "phpunit/phpunit": "5.4.*"
+        "phpunit/phpunit": "5.4.*",
+        "heroku/heroku-buildpack-php": "^110.0"
     }
 }
