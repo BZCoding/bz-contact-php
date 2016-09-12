@@ -1,4 +1,25 @@
 <?php
+// Stop if database is not configured
+if (empty($_SERVER['DATABASE_URI'])) {
+    throw new \Exception('Missing Database settings');
+}
+
+// Pre parse AMQP settings
+$amqp = parse_url($_SERVER['AMQP_URL']);
+
+// If using Postmark fix mailer settings
+if (!empty($_SERVER['POSTMARK_SMTP_SERVER'])) {
+    $_SERVER['MAILER_HOST'] = $_SERVER['POSTMARK_SMTP_SERVER'];
+}
+if (!empty($_SERVER['POSTMARK_API_TOKEN'])) {
+    $_SERVER['MAILER_USERNAME'] = $_SERVER['POSTMARK_API_TOKEN'];
+    $_SERVER['MAILER_PASSWORD'] = $_SERVER['POSTMARK_API_TOKEN'];
+}
+
+// Stop if mailer is not configured
+if (empty($_SERVER['MAILER_HOST'])) {
+    throw new \Exception('Missing Mailer settings');
+}
 return [
     'settings' => [
         'displayErrorDetails' => ($_SERVER['SLIM_MODE'] !== 'production') ? true : false, // set to false in production
@@ -18,11 +39,9 @@ return [
         ],
 
         'database' => [
-            'host' => $_SERVER['DATABASE_HOST'], // i.e mongodb://1.2.3.4:27017
-            'name' => $_SERVER['DATABASE_NAME'],
+            'host' => $_SERVER['DATABASE_URI'], // i.e mongodb://username:password@host:port/dbname
+            'name' => trim(parse_url($_SERVER['DATABASE_URI'], PHP_URL_PATH), '/'),
             'collection' => $_SERVER['DATABASE_COLLECTION'],
-            'username' => (isset($_SERVER['DATABASE_USERNAME'])) ? $_SERVER['DATABASE_USERNAME'] : null,
-            'password' => (isset($_SERVER['DATABASE_PASSWORD'])) ? $_SERVER['DATABASE_PASSWORD'] : null
         ],
 
         'mailer' => [
@@ -35,17 +54,17 @@ return [
             'subject' => $_SERVER['MAILER_SUBJECT'], // subject prefix
             'thankyou_subject' => $_SERVER['MAILER_THANKYOU_SUBJECT'], // full subject
             'host' => $_SERVER['MAILER_HOST'], // Mailcatcher on Vagrant host
-            'port' => $_SERVER['MAILER_PORT'],
+            'port' => !empty($_SERVER['MAILER_PORT']) ? $_SERVER['MAILER_PORT'] : 25,
             'username' => (isset($_SERVER['MAILER_USERNAME'])) ? $_SERVER['MAILER_USERNAME'] : null,
             'password' => (isset($_SERVER['MAILER_PASSWORD'])) ? $_SERVER['MAILER_PASSWORD'] : null
         ],
 
         'amqp' => [
-            'host' => $_SERVER['AMQP_HOST'],
-            'port' => $_SERVER['AMQP_PORT'],
-            'username' => $_SERVER['AMQP_USERNAME'],
-            'password' => $_SERVER['AMQP_PASSWORD'],
-            'vhost' => $_SERVER['AMQP_VHOST'],
+            'host' => $amqp['host'],
+            'port' => !empty($amqp['port']) ? $amqp['port'] : 5672,
+            'username' => $amqp['user'],
+            'password' => $amqp['pass'],
+            'vhost' => (empty($amqp['path']) || '/' === $amqp['path']) ? '/' : trim($amqp['path'], '/'),
             'queue' => $_SERVER['AMQP_QUEUE'],
         ],
 
