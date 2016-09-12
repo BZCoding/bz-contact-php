@@ -228,9 +228,10 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
      * Retrieves errors for a field
      *
      * @param string $id The id of the form element
+     * @param string $format Formatted output string (not used)
      * @return string
      */
-    public function getError($id)
+    public function getError($id, $format = null)
     {
         if (!empty($this->form->fields[$id])) {
             return parent::getError($this->form->fields[$id]->name, '<span class="error">:message</span>');
