@@ -1,5 +1,7 @@
 # BZContact PHP Form Manager
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 BZContact is a simple contact form manager. It can be used to manage a contact form for a static web site, or to create a landing page and collect call to action requests.
 
 This application uses the latest Slim 3 Framework with the PHP-View template renderer. It also uses the Monolog logger.
