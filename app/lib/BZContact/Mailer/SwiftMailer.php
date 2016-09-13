@@ -39,8 +39,13 @@ class SwiftMailer implements MailerInterface
             ->setTo($data['to'])
             ->setReplyTo($data['reply_to'])
             ->setBody($data['body']);
-        $result = $this->mailer->send($message);
-        return ($result > 0);
+        try {
+            $result = $this->mailer->send($message);
+            return ($result > 0);
+        } catch (\Exception $e) {
+            $this->logger->error($e->getMessage());
+            return false;
+        }
     }
 
     /**

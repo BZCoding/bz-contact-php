@@ -47,7 +47,7 @@ class Queue
 
         // Create a persistent message payload (delivery_mode = 2):
         // the message is removed only when the consumer sends an ACK signal
-        $msg = new AMQPMessage(json_encode($message), ['delivery_mode' => 2]);
+        $msg = new AMQPMessage(json_encode($message), ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]);
 
         // Publish the message to queue with an empty consumer tag
         $channel->basic_publish($msg, $tag, $queue);

@@ -27,7 +27,7 @@ class SwiftMailerTest extends TestCase
         ]));
 
         $swiftMailer = $this->createMock(\Swift_Mailer::class);
-        $swiftMailer->expects($this->any())->method('send')->willReturn(1);
+        $swiftMailer->method('send')->willReturn(1);
 
         $message = [
             'id' => '1234Abc',
@@ -44,7 +44,14 @@ class SwiftMailerTest extends TestCase
 
         $mailer = new Mailer\SwiftMailer($swiftMailer, $container);
         $this->assertInstanceOf(Mailer\SwiftMailer::class, $mailer);
+
+        // Test for success
         $this->assertTrue($mailer->sendAdminNotification($message));
         $this->assertTrue($mailer->sendSubscriberNotification($message));
+
+        // Test for failure
+        $swiftMailer->method('send')->will($this->throwException(new \Exception));
+        $this->assertFalse($mailer->sendAdminNotification($message));
+        $this->assertFalse($mailer->sendSubscriberNotification($message));
     }
 }

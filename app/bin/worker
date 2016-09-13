@@ -97,7 +97,10 @@ $channel->basic_consume($queue, '', false, false, false, false, function ($msg) 
         if (true === $action($payload)) {
             // If all right, send an ACK, if not the message will be sent to another worker
             $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+            return;
         }
+        // Bounce back the message and re queue it, useful for temporary errors, such as timeout
+        $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag'], false, true);
     } catch (ContainerValueNotFoundException $e) {
         $logger->error("Action not available", ['action' => $payload['action']]);
         // No ACK, another worker could have the handler...

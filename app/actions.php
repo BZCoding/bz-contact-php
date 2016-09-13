@@ -106,7 +106,8 @@ $container['action-newsletter-subscribe'] = function ($c) {
                 break;
         }
 
-        // Always return true and log the errors, else the queue is blocked
+        // For now we always return true and log the error
+        // TODO: determine which errors deserve a retry and return false to requeue
         return true;
     };
 };
@@ -172,7 +173,8 @@ $container['action-webhook-post'] = function ($c) {
                     break;
             }
 
-            // Always return true and log the errors, else the queue is blocked
+            // For now we always return true and log the error
+            // TODO: determine which errors deserve a retry and return false to requeue
             return true;
         } catch (GuzzleHttp\Exception\RequestException $e) {
             $logger->error('Webhook - Timeout expired, retrying later');
