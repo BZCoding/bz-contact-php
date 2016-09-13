@@ -40,25 +40,9 @@
       "description": "Full subject for the thankyou mail",
       "value": "Thank you for reaching out!"
     },
-    "POSTMARK_SMTP_SERVER": {
-      "description": "Mail server host",
-      "value": "smtp.postmarkapp.com"
-    },
-    "POSTMARK_API_TOKEN": {
-      "description": "Mail server port",
-      "value": "SomeLongToken"
-    },
-    "DATABASE_URL": {
-      "description": "Mongo DB DNS (i.e mongodb://foo:bar@localhost[:27017]/bzcontact)",
-      "value": "mongodb://127.0.0.1:27017/bzcontact"
-    },
     "DATABASE_COLLECTION": {
-      "description": "Mongo DB Collection",
+      "description": "Mongo DB collection where to store form entries",
       "value": "entries"
-    },
-    "AMQP_URL": {
-      "description": "Queue server DSN (i.e amqp://foo:bar@localhost[:5672]/vhostname)",
-      "value": "amqp://foo:bar@localhost:5672/vhostname"
     },
     "AMQP_QUEUE": {
       "description": "Queue name",
