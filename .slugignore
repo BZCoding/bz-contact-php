@@ -1,0 +1,12 @@
+/.vagrant
+/ansible
+/coverage
+/share
+/tests
+
+.DS_Store
+.env*
+phpunit.xml
+Vagrantfile
+CONTRIBUTING.md
+README.md
