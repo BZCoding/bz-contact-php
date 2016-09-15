@@ -2,6 +2,7 @@
   "name": "BZ Contact",
   "description": "An useful contact form application",
   "keywords": ["php", "contact", "form"],
+  "repository": "https://github.com/BZCoding/bz-contact-php",
   "addons": [
     {
       "plan": "mongolab:sandbox",
@@ -15,21 +16,27 @@
       "plan": "postmark:10k"
     }
   ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "free"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  },
   "env": {
     "SLIM_MODE": {
       "description": "Application mode, can be 'production' or 'development'",
       "value": "production"
     },
     "MAILER_FROM_NAME": {
-      "description": "Name of the email sender (i.e BZContact at Example Inc)",
-      "value": ""
-    },
-    "MAILER_FROM_EMAIL": {
-      "description": "Email address of the email sender",
+      "description": "Name of the app owner (i.e BZContact at Example Inc)",
       "value": ""
     },
     "MAILER_ADMIN_EMAIL": {
-      "description": "Admin email address",
+      "description": "Who will receive submission notifications?",
       "value": ""
     },
     "MAILER_SUBJECT": {
@@ -42,11 +49,13 @@
     },
     "DATABASE_COLLECTION": {
       "description": "Mongo DB collection where to store form entries",
-      "value": "entries"
+      "value": "entries",
+      "required": false
     },
     "AMQP_QUEUE": {
-      "description": "Queue name",
-      "value": "tasks"
+      "description": "Background tasks queue name",
+      "value": "tasks",
+      "required": false
     }
   }
 }

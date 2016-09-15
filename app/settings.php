@@ -41,12 +41,12 @@ return [
         'database' => [
             'host' => $_SERVER['DATABASE_URI'], // i.e mongodb://username:password@host:port/dbname
             'name' => trim(parse_url($_SERVER['DATABASE_URI'], PHP_URL_PATH), '/'),
-            'collection' => $_SERVER['DATABASE_COLLECTION'],
+            'collection' => !empty($_SERVER['DATABASE_COLLECTION']) ? $_SERVER['DATABASE_COLLECTION'] : 'entries',
         ],
 
         'mailer' => [
             'from' => [
-                'email' => $_SERVER['MAILER_FROM_EMAIL'],
+                'email' => $_SERVER['MAILER_ADMIN_EMAIL'],
                 'name' => $_SERVER['MAILER_FROM_NAME']
             ], // who should send notification
             'to' => $_SERVER['MAILER_ADMIN_EMAIL'], // who should receive notification
@@ -65,7 +65,7 @@ return [
             'username' => $amqp['user'],
             'password' => $amqp['pass'],
             'vhost' => (empty($amqp['path']) || '/' === $amqp['path']) ? '/' : trim($amqp['path'], '/'),
-            'queue' => $_SERVER['AMQP_QUEUE'],
+            'queue' => !empty($_SERVER['AMQP_QUEUE']) ? $_SERVER['AMQP_QUEUE'] : 'tasks',
         ],
 
         'newsletter' => [
