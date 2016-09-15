@@ -1,6 +1,6 @@
 {
   "name": "BZ Contact",
-  "description": "An useful contact form application",
+  "description": "An useful contact form application, for static web sites or landing pages. Stores submissions to MongoDB and send them by email. Integrates with MailChimp and webhooks. Pleas note: if you're using the default Postmark addon you need to open the Postmark dashboard and create a sender signature in order to be able to send emails.",
   "keywords": ["php", "contact", "form"],
   "repository": "https://github.com/BZCoding/bz-contact-php",
   "addons": [
@@ -48,13 +48,13 @@
       "value": "Thank you for reaching out!"
     },
     "DATABASE_COLLECTION": {
-      "description": "Mongo DB collection where to store form entries",
-      "value": "entries",
+      "description": "Mongo DB collection where to store form entries (default: entries)",
+      "value": "",
       "required": false
     },
     "AMQP_QUEUE": {
-      "description": "Background tasks queue name",
-      "value": "tasks",
+      "description": "Background tasks queue name (default: tasks)",
+      "value": "",
       "required": false
     }
   }
