@@ -119,7 +119,12 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
      */
     public function open()
     {
-        $open = parent::open();
+        $open = new Elements\FormOpen;
+
+        if ($this->hasToken()) {
+            $open->token($this->csrfToken);
+        }
+
         foreach ($this->form->attributes as $k => $v) {
             switch ($k) {
                 case 'class':

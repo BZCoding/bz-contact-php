@@ -296,4 +296,25 @@ class FormBuilderTest extends TestCase
         $this->assertInternalType('string', $builder->getError('name'));
         $this->assertEquals('<span class="error">Name is required</span>', $builder->getError('contact-name'));
     }
+
+    /**
+     * Test CSRF field generation
+     */
+    public function testCsrf()
+    {
+        $data = '{"fields":[';
+        $data .= '{"id":"contact-name","name":"name","label":"Your name","placeholder":"i.e. John Doe"},';
+        $data .= '{"id":"contact-email","name":"email","type":"email","required":true},';
+        $data .= '{"id":"contact-submit","name":"contact-submit","type":"submit","value":"Send"}';
+        $data .= ']}';
+
+        $builder = new Form\FormBuilder($data);
+        $builder->setToken([
+            'csrf_name' => 'foo',
+            'csrf_value' => 'bar'
+        ]);
+        $openFormMarkup = $builder->open()->__toString();
+        $this->assertContains('<input type="hidden" name="csrf_name" value="foo">', $openFormMarkup);
+        $this->assertContains('<input type="hidden" name="csrf_value" value="bar">', $openFormMarkup);
+    }
 }

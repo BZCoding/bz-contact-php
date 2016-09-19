@@ -25,6 +25,9 @@ return [
         'displayErrorDetails' => ($_SERVER['SLIM_MODE'] !== 'production') ? true : false, // set to false in production
         'addContentLengthHeader' => false, // Allow the web server to send the content-length header
 
+        'csrfToken' => isset($_SERVER['CSRF_ENABLED'])
+            ? (boolean)$_SERVER['CSRF_ENABLED'] : true, // CSRF enabled by default
+
         'redirect_thankyou' => !empty($_SERVER['REDIRECT_THANKYOU']) ? $_SERVER['REDIRECT_THANKYOU'] : false,
 
         // Renderer settings

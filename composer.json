@@ -38,7 +38,8 @@
         "vlucas/phpdotenv": "^2.3",
         "php-amqplib/php-amqplib": "^2.6",
         "drewm/mailchimp-api": "^2.2",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "slim/csrf": "^0.7.0"
     },
     "archive": {
         "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]

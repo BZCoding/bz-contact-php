@@ -18,6 +18,13 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+// csrf protection
+$container['csrf'] = function ($c) {
+    // @see https://github.com/slimphp/Slim-Csrf to customize
+    $csrf = new Slim\Csrf\Guard();
+    return $csrf;
+};
+
 // form builder
 $container['form'] = function ($c) {
     $settings = $c->get('settings')['form'];
