@@ -2,53 +2,50 @@
 <ol class="form-fields">
   <li>
       <?= $form->label()->forId('contact-name'); ?>
-      <?= $form->field('contact-name'); ?>
+      <?= $form->field('contact-name')->addClass('u-full-width'); ?>
       <?= $form->getError('contact-name'); ?>
   </li>
   <li>
     <?= $form->label()->forId('contact-company'); ?>
-    <?= $form->field('contact-company'); ?>
+    <?= $form->field('contact-company')->addClass('u-full-width'); ?>
     <?= $form->getError('contact-company'); ?>
   </li>
   <li>
     <?= $form->label()->forId('contact-email'); ?>
-    <?= $form->field('contact-email')->addClass('email'); ?>
+    <?= $form->field('contact-email')->addClass('email u-full-width'); ?>
     <?= $form->getError('contact-email'); ?>
   </li>
   <li>
     <?= $form->label()->forId('contact-phone'); ?>
-    <?= $form->field('contact-phone'); ?>
+    <?= $form->field('contact-phone')->addClass('u-full-width'); ?>
     <?= $form->getError('contact-phone'); ?>
   </li>
   <li>
     <?= $form->label()->forId('message-subject'); ?>
-    <?= $form->field('message-subject'); ?>
+    <?= $form->field('message-subject')->addClass('u-full-width'); ?>
     <?= $form->getError('message-subject'); ?>
   </li>
   <li>
     <?= $form->label()->forId('message-text'); ?>
-    <?= $form->field('message-text'); ?>
+    <?= $form->field('message-text')->rows(6)->addClass('u-full-width'); ?>
     <?= $form->getError('message-text'); ?>
   </li>
   <li>
     <?= $form->label()->forId('referral'); ?>
-    <?= $form->field('referral'); ?>
+    <?= $form->field('referral')->addClass('u-full-width'); ?>
     <?= $form->getError('referral'); ?>
   </li>
-  <li>
-    <?= $form->field('client-type-business'); ?>
-    <?= $form->label()->forId('client-type-business'); ?>
-    <?= $form->field('client-type-consumer'); ?>
-    <?= $form->label()->forId('client-type-consumer'); ?>
+  <li class="row">
+    <?= $form->label()->forId('client-type-business')->after($form->field('client-type-business'))->addClass('four columns'); ?>
+    <?= $form->label()->forId('client-type-consumer')->after($form->field('client-type-consumer'))->addClass('eight columns'); ?>
     <?= $form->getError('client-type-consumer'); ?>
   </li>
   <li>
-    <?= $form->field('privacy'); ?>
-    <?= $form->label()->forId('privacy'); ?>
+    <?= $form->label()->forId('privacy')->after($form->field('privacy'))->addClass('privacy'); ?>
     <?= $form->getError('privacy'); ?>
   </li>
   <li class="submit">
-    <?= $form->field('contact-submit'); ?>
+    <?= $form->field('contact-submit')->addClass('button-primary'); ?>
   </li>
 </ol>
 <?= $form->close(); ?>
