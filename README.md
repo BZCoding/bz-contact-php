@@ -29,7 +29,9 @@ That's it! Now build something cool.
 
 BZContact is built on top of Slim-Skeleton application. It uses Slim 3 Framework with the PHP-View template renderer.
 
-The default UI theme built on top of [Skeleton](http://getskeleton.com/) CSS boilerplate, with a cover photo by [Yair Hazout from Unsplash](https://unsplash.com/@yairhazout), and a favicon by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com), licensed by [CC 3.0 BY ](http://creativecommons.org/licenses/by/3.0/ "Creative Commons BY 3.0")
+The default UI theme built on top of [Skeleton](http://getskeleton.com/) CSS boilerplate, with a cover photo by [Yair Hazout from Unsplash](https://unsplash.com/@yairhazout).
+
+The favicon and the application logo (`logo.svg`) were built using icons by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com), licensed by [CC 3.0 BY ](http://creativecommons.org/licenses/by/3.0/ "Creative Commons BY 3.0")
 
 ## License
 
