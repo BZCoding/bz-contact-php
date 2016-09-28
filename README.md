@@ -4,26 +4,30 @@
 
 BZContact is a simple contact form manager. It can be used to manage a contact form for a static web site, or to create a landing page and collect call to action requests.
 
-This application uses the latest Slim 3 Framework with the PHP-View template renderer. It also uses the Monolog logger.
-
 ## Install
 
 Run this command from the directory in which you want to install your new application.
 
 ~~~ console
-php composer.phar create-project bzcoding/bz-contact-php [my-app-name]
+$ composer create-project bzcoding/bz-contact-php [my-app-name]
 ~~~
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
+Replace `[my-app-name]` with the desired directory name for your new application.
 
- * Point your virtual host document root to your new application's `app/public/` directory.
- * Ensure `logs/` is web writeable.
+### Development
 
-That's it! Now go build something cool.
+Start a development server by running `composer run server --timeout=0`.
+
+### Staging and Production
+
+ * Point your virtual host document root to the application's `app/public/` directory.
+ * Ensure your log file path is web writeable if you're not logging to `stdout`.
+
+That's it! Now build something cool.
 
 ## Credits
 
-BZContact is built on top of Slim-Skeleton application.
+BZContact is built on top of Slim-Skeleton application. It uses Slim 3 Framework with the PHP-View template renderer.
 
 The default UI theme built on top of [Skeleton](http://getskeleton.com/) CSS boilerplate, with a cover photo by [Yair Hazout from Unsplash](https://unsplash.com/@yairhazout), and a favicon by [Freepik](http://www.freepik.com) from [Flaticon](http://www.flaticon.com), licensed by [CC 3.0 BY ](http://creativecommons.org/licenses/by/3.0/ "Creative Commons BY 3.0")
 
