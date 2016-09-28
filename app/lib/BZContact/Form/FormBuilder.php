@@ -194,6 +194,14 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
             }
             if (isset($field->required) && $field->required) {
                 $obj->required();
+                if (!empty($field->error)) {
+                    $obj->data('msg-required', $field->error);
+                } else {
+                    $obj->data(
+                        'msg-required',
+                        sprintf('%s cannot be empty', !empty($field->label) ? $field->label : $field->name)
+                    );
+                }
             }
             if (!empty($field->class)) {
                 $obj->addClass($field->class);

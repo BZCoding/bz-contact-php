@@ -76,7 +76,9 @@
             "name": "client-type",
             "value": "business",
             "label": "I'm a Business owner",
-            "type": "radio"
+            "type": "radio",
+            "required": true,
+            "error": "Please, choose a valid option"
         },
         {
             "id": "client-type-consumer",
