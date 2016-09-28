@@ -2,7 +2,7 @@
     "name": "bzcoding/bz-contact-php",
     "description": "A simple contact form manager for static sites and landing pages",
     "keywords": ["form","landing page"],
-    "homepage": "http://github.com/bzcoding/BZContactPHP",
+    "homepage": "https://github.com/BZCoding/bz-contact-php",
     "license": "MIT",
     "authors": [
         {
