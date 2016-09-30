@@ -5,7 +5,7 @@ php:
   - '5.6'
   - '7.0'
 
-before_script:
+before_install:
   - phpenv config-rm xdebug.ini
   - echo 'date.timezone = "Europe/London"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
