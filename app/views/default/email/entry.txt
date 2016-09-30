@@ -2,6 +2,12 @@
 
 ------------
 
+Referral:      <?=(!empty($entry['referral'])) ? $entry['referral'] : 'n.a', "\n"?>
+Client Type:   <?=(!empty($entry['client-type'])) ? $entry['client-type'] : 'n.a', "\n"?>
+Privacy Check: <?=(!empty($entry['privacy'])) ? 'yes' : 'no/n.a', "\n"?>
+
+------------
+
 Date/Time:  <?=(!empty($entry['datetime'])) ? $entry['datetime'] : 'n.a', "\n"?>
 IP Address: <?=(!empty($entry['ip'])) ? $entry['ip'] : 'n.a', "\n"?>
 Referer:    <?=(!empty($entry['referer'])) ? $entry['referer'] : 'n.a', "\n"?>

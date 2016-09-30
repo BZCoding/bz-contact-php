@@ -65,9 +65,9 @@
             "type":"select",
             "label": "How did you hear of us?",
             "options": [
-                {"f": "Friends"},
-                {"c": "Clients"},
-                {"o": "Other"}
+                {"friends": "Friends"},
+                {"clients": "Clients"},
+                {"other": "Other"}
             ],
             "error": "The chosen option is not valid"
         },
