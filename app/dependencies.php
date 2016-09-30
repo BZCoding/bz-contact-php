@@ -15,7 +15,16 @@ $container['renderer'] = function ($c) {
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);
+
+     // Monolog UID
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
+
+    // Optional request ID from Heroku
+    $logger->pushProcessor(function ($record) {
+        $record['extra']['request_id'] = isset($_SERVER['HTTP_X_REQUEST_ID']) ? $_SERVER['HTTP_X_REQUEST_ID'] : null;
+        return $record;
+    });
+
     $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], Monolog\Logger::DEBUG));
     return $logger;
 };
