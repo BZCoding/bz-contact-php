@@ -6,7 +6,9 @@ $container = $app->getContainer();
 // view renderer
 $container['renderer'] = function ($c) {
     $settings = $c->get('settings')['renderer'];
-    return new Slim\Views\PhpRenderer($settings['template_path']);
+    return new Slim\Views\PhpRenderer($settings['template_path'], [
+        'siteName' => !empty($settings['siteName']) ? $settings['siteName'] : 'BZContact'
+    ]);
 };
 
 // monolog
@@ -109,7 +111,10 @@ $container['errorHandler'] = function ($c) {
         return $c->get('renderer')->render(
             $response->withStatus(500)->withHeader('Content-Type', 'text/html'),
             'error.phtml',
-            ['support' => $c->get('settings')['mailer']['reply_to']]
+            [
+                'pageTitle' => 'Error',
+                'support' => $c->get('settings')['mailer']['reply_to']
+            ]
         );
     };
 };
@@ -122,7 +127,10 @@ $container['notFoundHandler'] = function ($c) {
         return $c->get('renderer')->render(
             $response->withStatus(404)->withHeader('Content-Type', 'text/html'),
             '404.phtml',
-            ['support' => $c->get('settings')['mailer']['reply_to']]
+            [
+                'pageTitle' => 'Not Found',
+                'support' => $c->get('settings')['mailer']['reply_to']
+            ]
         );
     };
 };

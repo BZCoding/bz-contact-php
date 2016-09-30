@@ -33,6 +33,7 @@ return [
         // Renderer settings
         'renderer' => [
             'template_path' => __DIR__ . '/views/default/',
+            'siteName' => 'BZ Contact' // Customize your name here
         ],
 
         // Monolog settings
