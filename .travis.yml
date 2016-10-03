@@ -4,9 +4,16 @@ php:
   - '5.6'
   - '7.0'
 
+addons:
+  code_climate:
+    repo_token: 263c0b867785f4c11d5233121fe27accde0951844dceded8327e75503688c572
+
 before_install:
   - phpenv config-rm xdebug.ini
   - echo 'date.timezone = "Europe/London"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 install: composer install --ignore-platform-reqs
+
+after_script:
+  - vendor/bin/test-reporter --coverage-report=./coverage/clover.xml
