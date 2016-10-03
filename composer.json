@@ -39,7 +39,8 @@
         "php-amqplib/php-amqplib": "^2.6",
         "drewm/mailchimp-api": "^2.2",
         "guzzlehttp/guzzle": "^6.2",
-        "slim/csrf": "^0.7.0"
+        "slim/csrf": "^0.7.0",
+        "rollbar/rollbar": "^0.18.2"
     },
     "archive": {
         "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]

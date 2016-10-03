@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8ffda16e6fa1f9a373f792f6c54d3923",
-    "content-hash": "37e5ecc6b0fecbf598790e0081e3ddb8",
+    "hash": "a8bef702d79a1abab3b5c93d37614d2c",
+    "content-hash": "a15a2b56293669beee525ec06d52ce68",
     "packages": [
         {
             "name": "adamwathan/form",
@@ -823,6 +823,56 @@
                 "psr-3"
             ],
             "time": "2016-09-19 16:02:08"
+        },
+        {
+            "name": "rollbar/rollbar",
+            "version": "v0.18.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rollbar/rollbar-php.git",
+                "reference": "fafe13f8beb669d6bba0137f3703fa808d50cbb7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/fafe13f8beb669d6bba0137f3703fa808d50cbb7",
+                "reference": "fafe13f8beb669d6bba0137f3703fa808d50cbb7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/Level.php",
+                    "src/rollbar.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rollbar, Inc.",
+                    "email": "support@rollbar.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Monitors errors and exceptions and reports them to Rollbar",
+            "homepage": "http://github.com/rollbar/rollbar-php",
+            "keywords": [
+                "debugging",
+                "errors",
+                "exceptions",
+                "logging",
+                "monitoring"
+            ],
+            "time": "2016-07-05 15:50:29"
         },
         {
             "name": "slim/csrf",

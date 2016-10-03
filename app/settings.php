@@ -1,4 +1,12 @@
 <?php
+// Set Rollbar error tracking, if available
+if (!empty($_SERVER['ROLLBAR_ACCESS_TOKEN'])) {
+    Rollbar::init([
+        'access_token' => $_SERVER['ROLLBAR_ACCESS_TOKEN'],
+        'environment' => $_ENV['SLIM_MODE']
+    ]);
+}
+
 // Stop if database is not configured
 if (empty($_SERVER['DATABASE_URI'])) {
     throw new \Exception('Missing Database settings');
