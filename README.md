@@ -1,6 +1,6 @@
 # BZContact PHP Form Manager
 
-[![Build Status](https://travis-ci.org/BZCoding/bz-contact-php.svg?branch=master)](https://travis-ci.org/BZCoding/bz-contact-php)
+[![Build Status](https://travis-ci.org/BZCoding/bz-contact-php.svg?branch=master)](https://travis-ci.org/BZCoding/bz-contact-php) [![Coverage Status](https://coveralls.io/repos/github/BZCoding/bz-contact-php/badge.svg?branch=master)](https://coveralls.io/github/BZCoding/bz-contact-php?branch=master)
 
 BZContact is a simple contact form manager. It can be used to manage a contact form for a static web site, or to create a landing page and collect call to action requests.
 
