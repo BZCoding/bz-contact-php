@@ -10,3 +10,8 @@ phpunit.xml
 Vagrantfile
 CONTRIBUTING.md
 README.md
+.travis.yml
+.codeclimate.yml
+.csslintrc
+.eslintrc
+.eslintignore
