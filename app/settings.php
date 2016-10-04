@@ -46,7 +46,7 @@ return [
 
         // Monolog settings
         'logger' => [
-            'name' => 'bz-contact',
+            'name' => 'bzcontact',
             'path' => (isset($_SERVER['LOG_PATH'])) ? $_SERVER['LOG_PATH'] : 'php://stdout',
         ],
 

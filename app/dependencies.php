@@ -25,7 +25,23 @@ $container['logger'] = function ($c) {
         return $record;
     });
 
-    $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], Monolog\Logger::DEBUG));
+    $level = Monolog\Logger::INFO;
+    if (!empty($_SERVER['LOG_LEVEL'])) {
+        $level = (int) $_SERVER['LOG_LEVEL'];
+    }
+    $stream = new Monolog\Handler\StreamHandler($settings['path'], $level);
+
+    // Default log format
+    $format = "[%datetime%] %channel%.%level_name%"." %message% %context% %extra%\n";
+
+    // Heroku/Logentries log format, without timestamp
+    if (false !== (strstr($_SERVER['PATH'], 'heroku')) || isset($_SERVER['DYNO'])) {
+        $format = "%channel%.%level_name%"." %message% %context% %extra%\n";
+    }
+
+    $stream->setFormatter(new Monolog\Formatter\LineFormatter($format));
+
+    $logger->pushHandler($stream);
     return $logger;
 };
 
