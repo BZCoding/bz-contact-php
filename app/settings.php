@@ -3,7 +3,7 @@
 if (!empty($_SERVER['ROLLBAR_ACCESS_TOKEN'])) {
     Rollbar::init([
         'access_token' => $_SERVER['ROLLBAR_ACCESS_TOKEN'],
-        'environment' => $_ENV['SLIM_MODE']
+        'environment' => $_SERVER['SLIM_MODE']
     ]);
 }
 
