@@ -68,7 +68,7 @@ class FormController
         return false;
     }
 
-    public function __invoke($request, $response, $args)
+    public function __invoke($request, $response)
     {
         // Sample log message
         $this->logger->info("POST - '/'", ['ip' => $request->getAttribute('ip_address')]);

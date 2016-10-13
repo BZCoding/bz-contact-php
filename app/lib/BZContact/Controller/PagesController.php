@@ -16,21 +16,21 @@ class PagesController
         $this->form = $this->ci->get('form');
     }
 
-    public function index($request, $response, $args)
+    public function index($request, $response)
     {
         return $this->view->render($response, 'index.phtml', [
             'form' => $this->form
         ]);
     }
 
-    public function privacy($request, $response, $args)
+    public function privacy($request, $response)
     {
         return $this->view->render($response, 'privacy.phtml', [
             'pageTitle' => 'Privacy & Cookies'
         ]);
     }
 
-    public function terms($request, $response, $args)
+    public function terms($request, $response)
     {
         return $this->view->render($response, 'terms.phtml', [
             'pageTitle' => 'Terms of Service'

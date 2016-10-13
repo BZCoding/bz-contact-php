@@ -49,7 +49,8 @@ class FormControllerTest extends TestCase
         $controller = new Controller\FormController($this->container);
         $this->form->method('validates')->willReturn(true);
         $this->renderer->method('render')->willReturn('ThankYou.html');
-        $result = $controller($this->request, $this->response, []);
+
+        $result = $controller($this->request, $this->response);
         $this->assertEquals('ThankYou.html', $result);
     }
 
@@ -60,7 +61,8 @@ class FormControllerTest extends TestCase
         $this->form->method('setErrorStore')->willReturn(true);
         $this->validator->method('errors')->willReturn(['foo' => 'bar']);
         $this->renderer->method('render')->willReturn('Errors');
-        $result = $controller($this->request, $this->response, []);
+
+        $result = $controller($this->request, $this->response);
         $this->assertEquals('Errors', $result);
     }
 
@@ -76,7 +78,8 @@ class FormControllerTest extends TestCase
         $this->form->method('validates')->willReturn(true);
         $this->response->method('withHeader')->willReturn($thankyou);
         $this->response->method('withStatus')->willReturn($this->response);
-        $result = $controller($this->request, $this->response, []);
+
+        $result = $controller($this->request, $this->response);
         $this->assertEquals($thankyou, $result);
     }
 
@@ -100,7 +103,7 @@ class FormControllerTest extends TestCase
         $controller = new Controller\FormController($this->container);
         $this->form->method('validates')->willReturn(true);
         $this->renderer->method('render')->willReturn('ThankYou.html');
-        $result = $controller($this->request, $this->response, []);
+        $result = $controller($this->request, $this->response);
         $this->expectException(\Exception::class);
     }
 }

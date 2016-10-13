@@ -25,21 +25,21 @@ class PagesControllerTest extends TestCase
     public function testTheHomePage()
     {
         $pages = new Controller\PagesController($this->container);
-        $page = $pages->index($this->request, $this->response, []);
+        $page = $pages->index($this->request, $this->response);
         $this->assertEquals('Hello World', $page);
     }
 
     public function testThePrivacyPage()
     {
         $pages = new Controller\PagesController($this->container);
-        $page = $pages->privacy($this->request, $this->response, []);
+        $page = $pages->privacy($this->request, $this->response);
         $this->assertEquals('Hello World', $page);
     }
 
     public function testTheTermsPage()
     {
         $pages = new Controller\PagesController($this->container);
-        $page = $pages->terms($this->request, $this->response, []);
+        $page = $pages->terms($this->request, $this->response);
         $this->assertEquals('Hello World', $page);
     }
 }
