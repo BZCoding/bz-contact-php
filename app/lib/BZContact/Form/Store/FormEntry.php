@@ -26,7 +26,7 @@ class FormEntry implements FormEntryInterface
      * Save an entry to database
      *
      * @throw \Exceptiom
-     * @return boolean
+     * @return array | boolean
      */
     public function save()
     {
@@ -36,7 +36,10 @@ class FormEntry implements FormEntryInterface
             $this->data['id'] = $this->data['_id']->{'$id'};
             unset($this->data['_id']);
         }
-        return $result;
+        if (true === $result) {
+            return $this->getData();
+        }
+        return false;
     }
     public function getData()
     {
