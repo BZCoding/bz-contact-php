@@ -43,7 +43,11 @@
         "rollbar/rollbar": "^0.18.2"
     },
     "archive": {
-        "exclude": ["vendor", ".DS_Store", "*.log", ".gitignore"]
+        "exclude": [
+            ".vagrant", "ansible", "coverage", "share", "vendor", "wapiti",
+            ".codeclimate.yml", ".csslintrc", ".DS_Store", "*.log", ".eslintrc",
+            ".eslintignore", ".gitignore", ".slugignore", ".travis.yml", "Vagrantfile"
+        ]
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.6",
