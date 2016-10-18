@@ -126,7 +126,7 @@ class FormBuilderTest extends TestCase
         $submitFieldMarkup = $builder->field('contact-submit')->__toString();
         $this->assertContains('type="submit" name="contact-submit" id="contact-submit">Send', $submitFieldMarkup);
 
-        // Test that an empty form elemebt is returned when an unknown id is passed
+        // Test that an empty form element is returned when an unknown id is passed
         $emptyFieldMarkup = $builder->field('unknown');
         $this->assertInstanceOf(Form\Elements\EmptyElement::class, $emptyFieldMarkup);
         $this->assertEmpty($emptyFieldMarkup->__toString());
@@ -195,6 +195,28 @@ class FormBuilderTest extends TestCase
         $openFormMarkup = $builder->open()->addClass('foo')->__toString();
         $this->assertContains('method="POST"', $openFormMarkup);
         $this->assertContains('enctype="my-custom/encoding"', $openFormMarkup);
+    }
+
+    public function testRadioButtonGroup()
+    {
+        $data = '{"fields":[';
+        $data .= '{"id":"myradio","name":"myradio","label":"My Radio", "type":"radio", "required":true,';
+        $data .= '"options":["foo", "bar"]},';
+        $data .= '{"id":"contact-submit","name":"contact-submit","type":"submit","value":"Send"}';
+        $data .= ']}';
+        $builder = new Form\FormBuilder($data);
+
+        $radioFieldMarkup = $builder->field('myradio')->__toString();
+        $this->assertContains('<fieldset id="myradio">', $radioFieldMarkup);
+        $this->assertContains(
+            '<input type="radio" name="myradio" value="foo" id="myradio-foo" required="required"',
+            $radioFieldMarkup
+        );
+        $this->assertContains(
+            '<input type="radio" name="myradio" value="bar" id="myradio-bar" required="required"',
+            $radioFieldMarkup
+        );
+        $this->assertContains('</fieldset>', $radioFieldMarkup);
     }
 
     /**

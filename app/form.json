@@ -72,22 +72,24 @@
             "error": "The chosen option is not valid"
         },
         {
-            "id": "client-type-business",
+            "id": "client-type",
             "name": "client-type",
-            "value": "business",
-            "label": "I'm a Business owner",
             "type": "radio",
             "required": true,
-            "error": "Please, choose a valid option"
-        },
-        {
-            "id": "client-type-consumer",
-            "name": "client-type",
-            "value": "consumer",
-            "label": "I'm a Consumer",
-            "type": "radio",
-            "required": true,
-            "error": "Please, choose a valid option"
+            "label": "Which client type are you?",
+            "error": "Please, choose a valid option",
+            "options": [
+                {
+                    "id": "client-type-business",
+                    "value": "business",
+                    "label": "I'm a Business owner"
+                },
+                {
+                    "id": "client-type-consumer",
+                    "value": "consumer",
+                    "label": "I'm a Consumer"
+                }
+            ]
         },
         {
             "id": "contact-submit",

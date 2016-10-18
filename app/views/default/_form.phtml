@@ -1,51 +1,50 @@
 <?= $form->open(); ?>
 <ol class="form-fields">
-  <li>
-      <?= $form->label()->forId('contact-name'); ?>
-      <?= $form->field('contact-name')->addClass('u-full-width'); ?>
-      <?= $form->getError('contact-name'); ?>
-  </li>
-  <li>
-    <?= $form->label()->forId('contact-company'); ?>
-    <?= $form->field('contact-company')->addClass('u-full-width'); ?>
-    <?= $form->getError('contact-company'); ?>
-  </li>
-  <li>
-    <?= $form->label()->forId('contact-email'); ?>
-    <?= $form->field('contact-email')->addClass('email u-full-width'); ?>
-    <?= $form->getError('contact-email'); ?>
-  </li>
-  <li>
-    <?= $form->label()->forId('contact-phone'); ?>
-    <?= $form->field('contact-phone')->addClass('u-full-width'); ?>
-    <?= $form->getError('contact-phone'); ?>
-  </li>
-  <li>
-    <?= $form->label()->forId('message-subject'); ?>
-    <?= $form->field('message-subject')->addClass('u-full-width'); ?>
-    <?= $form->getError('message-subject'); ?>
-  </li>
-  <li>
-    <?= $form->label()->forId('message-text'); ?>
-    <?= $form->field('message-text')->rows(6)->addClass('u-full-width'); ?>
-    <?= $form->getError('message-text'); ?>
-  </li>
-  <li>
-    <?= $form->label()->forId('referral'); ?>
-    <?= $form->field('referral')->addClass('u-full-width'); ?>
-    <?= $form->getError('referral'); ?>
-  </li>
-  <li class="row">
-    <?= $form->label()->forId('client-type-business')->after($form->field('client-type-business'))->addClass('four columns'); ?>
-    <?= $form->label()->forId('client-type-consumer')->after($form->field('client-type-consumer'))->addClass('eight columns'); ?>
-    <?= $form->getError('client-type-consumer'); ?>
-  </li>
-  <li>
-    <?= $form->label()->forId('privacy')->after($form->field('privacy'))->addClass('privacy'); ?>
-    <?= $form->getError('privacy'); ?>
-  </li>
-  <li class="submit">
-    <?= $form->field('contact-submit')->addClass('button-primary'); ?>
-  </li>
-</ol>
+  <?php foreach ($form->fields() as $field): ?>
+  <?php switch ($field->type):
+    case 'email': ?>
+    <li>
+      <?= $form->label()->forId($field->id); ?>
+      <?= $form->field($field->id)->addClass('email u-full-width'); ?>
+      <?= $form->getError($field->id); ?>
+    </li>
+    <?php break; ?>
+
+    <?php case 'textarea': ?>
+    <li>
+      <?= $form->label()->forId($field->id); ?>
+      <?= $form->field($field->id)->rows(6)->addClass('u-full-width'); ?>
+      <?= $form->getError($field->id); ?>
+    </li>
+    <?php break; ?>
+
+    <?php case 'checkbox': ?>
+    <li>
+      <?= $form->label()->forId($field->id)->after($form->field($field->id))->addClass($field->id); ?>
+      <?= $form->getError($field->id); ?>
+    </li>
+    <?php break; ?>
+
+    <?php case 'radio': ?>
+    <li>
+        <?= $form->field($field->id); ?>
+        <?= $form->getError($field->id); ?>
+    </li>
+    <?php break; ?>
+
+    <?php case 'submit': ?>
+    <li class="submit">
+      <?= $form->field($field->id)->addClass('button-primary'); ?>
+    </li>
+    <?php break; ?>
+
+    <?php default: ?>
+    <li>
+      <?= $form->label()->forId($field->id); ?>
+      <?= $form->field($field->id)->addClass('u-full-width'); ?>
+      <?= $form->getError($field->id); ?>
+    </li>
+  <?php break; endswitch; ?>
+  <?php endforeach; ?>
+  </ol>
 <?= $form->close(); ?>

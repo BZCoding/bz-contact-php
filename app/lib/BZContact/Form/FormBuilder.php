@@ -215,6 +215,19 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
     }
 
     /**
+     * Render a radio button as a fieldset
+     */
+    public function radio($name, $value = null)
+    {
+        $rbg = new Elements\RadioButtonGroup($name, $this->form->fields[$name]);
+
+        $oldValue = $this->getValueFor($name);
+        $rbg->setOldValue($oldValue);
+
+        return $rbg;
+    }
+
+    /**
      * Validates the form submitted data with the provided validator
      *
      * @param array $data Array of GET/POST data
@@ -235,6 +248,15 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
     public function filter(array $data)
     {
         return $this->form->filter($data);
+    }
+
+    /**
+     * Return field objects for rendering
+     * @return array
+     */
+    public function fields()
+    {
+        return $this->form->fields;
     }
 
     /**

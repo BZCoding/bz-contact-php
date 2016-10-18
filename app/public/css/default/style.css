@@ -88,6 +88,16 @@ label.privacy {
   font-weight: normal;
 }
 
+fieldset {
+  margin-bottom: 0;
+}
+
+fieldset label {
+    display: inline-block;
+    padding-right: 1em;
+    font-weight: normal;
+}
+
 /* Override buttons colors */
 .button.button-primary,
 button.button-primary,
