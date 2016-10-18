@@ -38,7 +38,7 @@ class Label extends Elements\Label
     public function forId($name)
     {
         parent::forId($name);
-        if ($this->form->fields[$name]) {
+        if (!empty($this->form->fields[$name])) {
             $this->setAttribute('for', $this->form->fields[$name]->id);
 
             // Use field provided label only if passed label is empty
