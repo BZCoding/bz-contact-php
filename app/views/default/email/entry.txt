@@ -1,7 +1,8 @@
-<?=(!empty($entry['message'])) ? $entry['message'] : 'Empty message body', "\n"?>
+<?=(!empty($entry['message'])) ? $entry['message'] : '(no message body)', "\n"?>
 
 ------------
 
+From:          <?=$entry['email'], (!empty($entry['name'])) ? ' (' . $entry['name'] . ')' : '', "\n"?>
 Referral:      <?=(!empty($entry['referral'])) ? $entry['referral'] : 'n.a', "\n"?>
 Client Type:   <?=(!empty($entry['client-type'])) ? $entry['client-type'] : 'n.a', "\n"?>
 Privacy Check: <?=(!empty($entry['privacy'])) ? 'yes' : 'no/n.a', "\n"?>

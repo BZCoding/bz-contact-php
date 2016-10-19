@@ -70,7 +70,7 @@ $container['action-newsletter-subscribe'] = function ($c) {
         $mergeFields = [];
         foreach ($settings['merge_fields'] as $key => $value) {
             // Field to function
-            if (is_array($value) && is_callable($value[0]) && !empty($value[1])) {
+            if (is_array($value) && is_callable($value[0]) && !empty($value[1]) && !empty($message[$value[1]])) {
                 $mergeFields[$key] = $value[0]($message[$value[1]]);
                 continue;
             }
@@ -80,7 +80,7 @@ $container['action-newsletter-subscribe'] = function ($c) {
                 continue;
             }
             // Field to form field
-            if (!empty($message[$value])) {
+            if (is_string($value) && !empty($message[$value])) {
                 $mergeFields[$key] = (string) $message[$value];
             }
         }

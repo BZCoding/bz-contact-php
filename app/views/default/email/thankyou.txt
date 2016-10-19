@@ -1,4 +1,4 @@
-Hi<?=($name) ? ' ' . $name : ''?>,
+Hi<?=($name) ? ' ' . $name : ' there'?>,
 
 Thank you for getting in touch!
 

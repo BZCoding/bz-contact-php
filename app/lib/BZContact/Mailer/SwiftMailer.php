@@ -59,10 +59,13 @@ class SwiftMailer implements MailerInterface
         $this->logger->info("Sending admin notification", ['message' => $message['id']]);
         $settings = $this->container->get('settings')['mailer'];
         return $this->send([
-            'from' => [$settings['from']['email'] => $message['name']],
+            'from' => [
+                $settings['from']['email'] => !empty($message['name']) ? $message['name'] : 'Mailer at BZ Contact'
+            ],
             'to' => $settings['to'],
             'reply_to' => $message['email'],
-            'subject' => $settings['subject'] . ' ' . $message['subject'],
+            'subject' => $settings['subject'] . ' '
+                . (!empty($message['subject']) ? $message['subject'] : 'New form submission'),
             'body' => $this->container->get('renderer')->fetch('email/entry.txt', ['entry' => $message])
         ]);
     }
@@ -79,12 +82,14 @@ class SwiftMailer implements MailerInterface
         $settings = $this->container->get('settings')['mailer'];
         return $this->send([
             'from' => [$settings['from']['email'] => $settings['from']['name']],
-            'to' => [$message['email'] => $message['name']],
+            'to' => !empty($message['name']) ? [$message['email'] => $message['name']] : $message['email'],
             'reply_to' => $settings['reply_to'],
             'subject' => $settings['thankyou_subject'],
             'body' => $this->container->get('renderer')->fetch(
                 'email/thankyou.txt',
-                ['name' => explode(' ', $message['name'])[0]] // Pass only the first name
+                [
+                    'name' => !empty($message['name']) ? explode(' ', $message['name'])[0] : ''
+                ] // Pass only the first name
             )
         ]);
     }
