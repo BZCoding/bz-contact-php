@@ -40,7 +40,7 @@ return [
 
         // Renderer settings
         'renderer' => [
-            'template_path' => __DIR__ . '/views/default/',
+            'template_path' => __DIR__ . '/themes/default/',
             'siteName' => 'BZ Contact' // Customize your name here
         ],
 
