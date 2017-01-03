@@ -1,0 +1,49 @@
+#!/usr/bin/env php
+<?php
+namespace BZContact;
+
+use Dotenv\Dotenv;
+use Slim\App;
+use Slim\Exception\ContainerValueNotFoundException;
+
+if (PHP_SAPI !== 'cli') {
+    echo "[error] this is a console program!\n";
+    exit(1);
+}
+
+require __DIR__ . '/../../../vendor/autoload.php';
+
+// Load Environment
+$envFile = dirname(__FILE__) . '/../../../.env';
+if (is_readable($envFile)) {
+    $dotenv = new Dotenv(dirname($envFile));
+    $dotenv->load();
+}
+
+// Load settings
+$settings = require __DIR__ . '/../../settings.php';
+
+$appRoot = realpath(__DIR__ . '/../../');
+$docRoot = $appRoot . '/public';
+
+$currentTheme = pathinfo($settings['settings']['renderer']['template_path'], PATHINFO_BASENAME);
+
+// src => dest
+$linkPaths = [
+    'css' => 'css',
+    'js' => 'js',
+    'images' => 'img',
+];
+
+foreach ($linkPaths as $src => $dest) {
+    $source = sprintf('../themes/%s/assets/%s', $currentTheme, $src);
+    $link = sprintf('%s/%s', $docRoot, $dest);
+    if (is_link($link)) {
+        // remove old link
+        unlink($link);
+    }
+    // create new link
+    symlink($source, $link);
+}
+
+exit(0);

@@ -14,7 +14,10 @@
     "scripts": {
         "server": "php -S 0.0.0.0:8080 -t app/public app/public/index.php",
         "lint": "phpcs --standard=PSR2 --colors --ignore=app/themes/*/assets app tests",
-        "test": "phpunit"
+        "test": "phpunit",
+        "assets:install": "app/bin/install/assets",
+        "post-install-cmd": "@composer assets:install",
+        "post-update-cmd": "@composer assets:install"
     },
     "autoload": {
         "psr-4": {
