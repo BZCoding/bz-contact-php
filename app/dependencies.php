@@ -137,7 +137,7 @@ $container['errorHandler'] = function ($c) {
         // Display nice error template to user
         return $c->get('renderer')->render(
             $response->withStatus(500)->withHeader('Content-Type', 'text/html'),
-            'error.phtml',
+            'errors/500.phtml',
             [
                 'pageTitle' => 'Error',
                 'support' => $c->get('settings')['mailer']['reply_to']
@@ -153,7 +153,7 @@ $container['notFoundHandler'] = function ($c) {
         // Display nice error template to user
         return $c->get('renderer')->render(
             $response->withStatus(404)->withHeader('Content-Type', 'text/html'),
-            '404.phtml',
+            'errors/404.phtml',
             [
                 'pageTitle' => 'Not Found',
                 'support' => $c->get('settings')['mailer']['reply_to']
