@@ -21,7 +21,12 @@ if (is_readable($envFile)) {
 }
 
 // Load settings
-$settings = require __DIR__ . '/../../settings.php';
+try {
+    $settings = require __DIR__ . '/../../settings.php';
+} catch (\Exception $e) {
+    echo "[warning] unable to load settings: {$e->getMessage()}\n";
+    exit(2); // May happen in CI context
+}
 
 $appRoot = realpath(__DIR__ . '/../../');
 $docRoot = $appRoot . '/public';

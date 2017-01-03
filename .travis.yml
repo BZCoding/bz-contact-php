@@ -13,7 +13,7 @@ before_install:
   - echo 'date.timezone = "Europe/London"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo "extension = mongo.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-install: composer install --ignore-platform-reqs
+install: composer install --ignore-platform-reqs --no-scripts
 
 after_script:
   - vendor/bin/test-reporter --coverage-report=./coverage/clover.xml
