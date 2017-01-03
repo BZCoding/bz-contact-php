@@ -43,6 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     jessie.vm.network :forwarded_port, guest: 15672, host: 15672, auto_correct: true
 
     # Disable default Vagrant share, turn it on only when needed (ie copy large files)
+    jessie.vm.synced_folder ".", "/vagrant", disabled: true
     jessie.vm.synced_folder ".", "/app",
       disabled: false,
       owner: "vagrant",
