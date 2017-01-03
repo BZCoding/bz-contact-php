@@ -56,8 +56,10 @@ $container['csrf'] = function ($c) {
 $container['form'] = function ($c) {
     $settings = $c->get('settings')['form'];
 
-    // Set form file to custom or default
-    $formFile = (!empty($settings['file'])) ? $settings['file'] : __DIR__ . '/form.json';
+    $currentTheme = $c->get('settings')['renderer']['template_path']; // has trailing slash
+
+    // Set form file to custom or current theme
+    $formFile = (!empty($settings['file'])) ? $settings['file'] : $currentTheme . 'form.json';
     if (!is_readable($formFile)) {
         throw new \ErrorException(sprintf("Unable to read form file '%s'", $formFile));
     }
