@@ -1,50 +1,28 @@
 <?= $form->open(); ?>
-<ol class="form-fields">
+  <ol class="form-fields">
   <?php foreach ($form->fields() as $field): ?>
-  <?php switch ($field->type):
-    case 'email': ?>
-    <li>
-      <?= $form->label()->forId($field->id); ?>
-      <?= $form->field($field->id)->addClass('email u-full-width'); ?>
-      <?= $form->getError($field->id); ?>
-    </li>
-    <?php break; ?>
+    <li class="<?=$field->type?>">
+    <?php switch ($field->type):
+      case 'checkbox': ?>
+        <?= $form->label()->forId($field->id)->after($form->field($field->id))->addClass($field->id); ?>
+        <?= $form->getError($field->id); ?>
+      <?php break; ?>
 
-    <?php case 'textarea': ?>
-    <li>
-      <?= $form->label()->forId($field->id); ?>
-      <?= $form->field($field->id)->rows(6)->addClass('u-full-width'); ?>
-      <?= $form->getError($field->id); ?>
-    </li>
-    <?php break; ?>
+      <?php case 'radio': ?>
+          <?= $form->field($field->id); ?>
+          <?= $form->getError($field->id); ?>
+      <?php break; ?>
 
-    <?php case 'checkbox': ?>
-    <li>
-      <?= $form->label()->forId($field->id)->after($form->field($field->id))->addClass($field->id); ?>
-      <?= $form->getError($field->id); ?>
-    </li>
-    <?php break; ?>
+      <?php case 'submit': ?>
+        <?= $form->field($field->id); ?>
+      <?php break; ?>
 
-    <?php case 'radio': ?>
-    <li>
+      <?php default: ?>
+        <?= $form->label()->forId($field->id); ?>
         <?= $form->field($field->id); ?>
         <?= $form->getError($field->id); ?>
+    <?php break; endswitch; ?>
     </li>
-    <?php break; ?>
-
-    <?php case 'submit': ?>
-    <li class="submit">
-      <?= $form->field($field->id)->addClass('button-primary'); ?>
-    </li>
-    <?php break; ?>
-
-    <?php default: ?>
-    <li>
-      <?= $form->label()->forId($field->id); ?>
-      <?= $form->field($field->id)->addClass('u-full-width'); ?>
-      <?= $form->getError($field->id); ?>
-    </li>
-  <?php break; endswitch; ?>
   <?php endforeach; ?>
   </ol>
 <?= $form->close(); ?>
