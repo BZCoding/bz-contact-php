@@ -13,7 +13,7 @@
     ],
     "scripts": {
         "server": "php -S 0.0.0.0:8080 -t app/public app/public/index.php",
-        "lint": "phpcs --standard=PSR2 --colors --ignore=app/public/css,app/public/js,app/public/img app tests",
+        "lint": "phpcs --standard=PSR2 --colors --ignore=app/themes/*/assets app tests",
         "test": "phpunit"
     },
     "autoload": {

@@ -5,3 +5,8 @@
 .DS_Store
 /coverage
 .env
+
+# Need to be symlinked
+/app/public/css
+/app/public/js
+/app/public/img

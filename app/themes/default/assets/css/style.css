@@ -19,7 +19,7 @@ a:hover {
 /* Header */
 .hero {
   background-color: #f7f7f7;
-  background-image: url(../../img/default/cover.jpg);
+  background-image: url(../../img/cover.jpg);
   background-size: cover;
   padding: 8rem 0;
   border-bottom: 1px solid #ccc;
