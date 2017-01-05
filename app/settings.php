@@ -7,27 +7,62 @@ if (!empty($_SERVER['ROLLBAR_ACCESS_TOKEN'])) {
     ]);
 }
 
-// Stop if database is not configured
-if (empty($_SERVER['DATABASE_URI'])) {
-    throw new \Exception('Missing Database settings');
+// We need to take care of exceptions here, Slim won't catch 'em
+try {
+    // Stop if database is not configured
+    if (empty($_SERVER['DATABASE_URI'])) {
+        throw new \Exception('Missing Database settings');
+    }
+
+    // Pre parse AMQP settings
+    $amqp = parse_url($_SERVER['AMQP_URL']);
+
+    // If using Postmark fix mailer settings
+    if (!empty($_SERVER['POSTMARK_SMTP_SERVER'])) {
+        $_SERVER['MAILER_HOST'] = $_SERVER['POSTMARK_SMTP_SERVER'];
+    }
+    if (!empty($_SERVER['POSTMARK_API_TOKEN'])) {
+        $_SERVER['MAILER_USERNAME'] = $_SERVER['POSTMARK_API_TOKEN'];
+        $_SERVER['MAILER_PASSWORD'] = $_SERVER['POSTMARK_API_TOKEN'];
+    }
+
+    // Load current theme
+    $currentTheme = !empty($_SERVER['UI_THEME']) ? $_SERVER['UI_THEME'] : 'default';
+    $templatePath = __DIR__ . sprintf('/themes/%s/', $currentTheme);
+    if (!is_dir($templatePath)) {
+        throw new \Exception('Invalid UI theme');
+    }
+
+    // Stop if mailer is not configured
+    if (empty($_SERVER['MAILER_HOST'])) {
+        throw new \Exception('Missing Mailer settings');
+    }
+} catch (\Exception $e) {
+    http_response_code(500);
+    header('Content-type: text/html');
+
+    // Log to syslog o stdout (for Devs)
+    // TODO: try this on Heroku
+    error_log($e->getMessage(), 0);
+
+    // Send the exception to Rollbar (it's not automatic)
+    Rollbar::report_exception($e);
+
+    // Nice message for users
+    $errorMessage = '<html>' .
+        '<head><title>Internal Server Error</title></head>' .
+        '<body>' . "\n" .
+        '<h1>Ops, something went wrong!</h1>' . "\n" .
+        '<p>For some reason we were not able to process your request, ' .
+        'but an administrator has been notified of this.</p>' . "\n" .
+        '<p>If you keep seeing this nasty page, please write to %s.</p>' . "\n" .
+        '</body></html>' . "\n";
+    exit(sprintf(
+        $errorMessage,
+        (!empty($_SERVER['MAILER_ADMIN_EMAIL']) ? $_SERVER['MAILER_ADMIN_EMAIL'] : '[n/a]')
+    ));
 }
 
-// Pre parse AMQP settings
-$amqp = parse_url($_SERVER['AMQP_URL']);
-
-// If using Postmark fix mailer settings
-if (!empty($_SERVER['POSTMARK_SMTP_SERVER'])) {
-    $_SERVER['MAILER_HOST'] = $_SERVER['POSTMARK_SMTP_SERVER'];
-}
-if (!empty($_SERVER['POSTMARK_API_TOKEN'])) {
-    $_SERVER['MAILER_USERNAME'] = $_SERVER['POSTMARK_API_TOKEN'];
-    $_SERVER['MAILER_PASSWORD'] = $_SERVER['POSTMARK_API_TOKEN'];
-}
-
-// Stop if mailer is not configured
-if (empty($_SERVER['MAILER_HOST'])) {
-    throw new \Exception('Missing Mailer settings');
-}
 return [
     'settings' => [
         'displayErrorDetails' => ($_SERVER['SLIM_MODE'] !== 'production') ? true : false, // set to false in production
@@ -40,7 +75,7 @@ return [
 
         // Renderer settings
         'renderer' => [
-            'template_path' => __DIR__ . '/themes/default/', // Put your custom theme in /themes/<custom>/
+            'template_path' => $templatePath, // Put your custom theme in /themes/<custom>/
             'siteName' => 'BZ Contact' // Customize your name here
         ],
 
