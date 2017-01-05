@@ -43,10 +43,14 @@ try {
 
     // Log to syslog o stdout (for Devs)
     // TODO: try this on Heroku
-    error_log($e->getMessage(), 0);
+    error_log('[app:error] ' . $e->getMessage(), 0);
 
     // Send the exception to Rollbar (it's not automatic)
     Rollbar::report_exception($e);
+
+    if (PHP_SAPI === 'cli') {
+        exit(1);
+    }
 
     // Nice message for users
     $errorMessage = '<html>' .
