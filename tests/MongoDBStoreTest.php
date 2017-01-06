@@ -10,15 +10,19 @@ class MongoDBStoreTest extends TestCase
         $logger = $this->createMock(\Psr\Log\LoggerInterface::class);
         $logger->method('info')->willReturn(true);
 
+        $document = $this->createMock(\Sokil\Mongo\Document::class);
+        $document->method('save')->willReturn($document);
+
         $collection = $this->createMock(\Sokil\Mongo\Collection::class);
-        $collection->method('insert')->willReturn(true);
+        $collection->method('createDocument')->willReturn($document);
 
         $store = new Form\Store\MongoDBStore($collection, $logger);
         $this->assertInstanceOf(Form\Store\MongoDBStore::class, $store);
 
+        // Empty data should not be saved
         $entry = $store->createEntry([]);
         $this->assertInstanceOf(Form\Store\FormEntryInterface::class, $entry);
-        $this->assertInternalType('array', $entry->save());
+        $this->assertFalse($entry->save());
 
         $document = new \stdClass();
         $document_id = new \stdClass();

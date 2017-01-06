@@ -35,12 +35,12 @@ class DummyStore implements StoreInterface
      * Save a form entry
      *
      * @param array $data Array of user data
-     * @return boolean
+     * @return array
      */
     public function saveEntry(array $data)
     {
         $this->logger->info("Saving...", ['data' => $data]);
-        return true;
+        return $data;
     }
 
     /**

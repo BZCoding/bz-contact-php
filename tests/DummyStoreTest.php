@@ -15,7 +15,10 @@ class DummyStoreTest extends TestCase
 
         $entry = $store->createEntry([]);
         $this->assertInstanceOf(Form\Store\FormEntryInterface::class, $entry);
-        $this->assertInternalType('array', $entry->save());
+
+        // Empty data should not be saved
+        $this->assertFalse($entry->save());
+
         $this->assertInternalType('array', $entry->getData());
 
         $entry = $store->getEntry('abc');
