@@ -26,7 +26,7 @@ class FormEntry implements FormEntryInterface
      * Save an entry to database
      *
      * @throw \Exceptiom
-     * @return array | boolean
+     * @return array|boolean
      */
     public function save()
     {

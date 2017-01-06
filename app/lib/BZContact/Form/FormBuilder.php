@@ -161,7 +161,7 @@ class FormBuilder extends \AdamWathan\Form\FormBuilder
      * Retrieves a form field by its id
      *
      * @param string $id The id of the form element
-     * @return Elements\Element
+     * @return Elements\Element|Elements\EmptyElement
      */
     public function field($id)
     {

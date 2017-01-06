@@ -24,6 +24,12 @@ class MongoDBStoreTest extends TestCase
         $this->assertInstanceOf(Form\Store\FormEntryInterface::class, $entry);
         $this->assertFalse($entry->save());
 
+        // Mock entry creation
+        $document->method('toArray')->willReturn(['foo' => 'bar', '_id' => 'abc']);
+        $entry = $store->createEntry(['foo' => 'bar']);
+        $this->assertInstanceOf(Form\Store\FormEntryInterface::class, $entry);
+        $this->assertInternalType('array', $entry->save());
+
         $document = new \stdClass();
         $document_id = new \stdClass();
         $document_id->{'$id'} = 'abc';
