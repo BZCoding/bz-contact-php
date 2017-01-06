@@ -1,0 +1,104 @@
+---
+
+# A sample PHP playbook
+
+  - hosts: php
+
+    become: yes
+    become_user: "root"
+    become_method: "sudo"
+
+    # Customize vars for Apache, PHP or MySQL (see mysql playbook)
+    vars:
+      app_env_vars:
+        - name: SLIM_MODE
+          value: development
+
+        - name: LOG_PATH
+          value: /tmp/bzcontact.log
+
+        - name: MAILER_FROM_NAME
+          value: BZ Contact at Example Inc
+
+        - name: MAILER_ADMIN_EMAIL
+          value: admin@example.com
+
+        # Subject prefix, a space will be added
+        - name: MAILER_SUBJECT
+          value: '[BZ Contact]'
+
+        # Full subject
+        - name: MAILER_THANKYOU_SUBJECT
+          value: Thank you for reaching out!
+
+        - name: MAILER_HOST
+          value: 10.0.2.2
+
+        - name: MAILER_PORT
+          value: 1025
+
+        # - name: MAILER_USERNAME
+        #   value: foo
+        #
+        # - name: MAILER_PASSWORD
+        #   value: bar
+
+        # mongodb://username:password@host[:port]/dbname
+        - name: DATABASE_URI
+          value: mongodb://127.0.0.1:27017/bzcontact
+
+        - name: DATABASE_COLLECTION
+          value: entries
+
+        # amqp://username:password@host[:port]/vhost (or /)
+        - name: AMQP_URL
+          value: amqp://admin:vagrant@localhost:5672/
+
+        - name: AMQP_QUEUE
+          value: tasks
+
+    roles:
+      - { role: php7-apache2, tags: ['php', 'php7','apache2'] }
+      - { role: mongodb, tags: ['mongodb'] }
+      - { role: rabbitmq, tags: ['rabbitmq'] }
+
+    tasks:
+
+      # Add MySQL tasks here (see mysql playbook)
+
+      # Add Apache tasks here
+      - name: copy app vhost file
+        template:
+          src: etc/apache2/vhost.conf
+          dest: /etc/apache2/sites-available/000-bzcontact.conf
+          owner: root
+          group: root
+          mode: 0644
+        notify:
+          - reload apache2
+
+      - name: enable website
+        command: "a2ensite 000-bzcontact"
+        args:
+          creates: "/etc/apache2/sites-enabled/000-bzcontact.conf"
+        notify:
+          - reload apache2
+
+      # See https://docs.ansible.com/ansible/composer_module.html
+      - name: run composer install
+        composer:
+          command: install
+          working_dir: /app
+          no_dev: false # install dev dependencies too
+
+      - name: Hello PHP
+        action: shell echo "Hello PHP!"
+        register: result
+      - debug: var=result.stdout
+
+    handlers:
+      - name: restart apache2
+        action: service name=apache2 state=restarted
+
+      - name: reload apache2
+        action: service name=apache2 state=reloaded

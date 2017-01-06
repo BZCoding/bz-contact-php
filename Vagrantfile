@@ -100,7 +100,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # ansible.verbose = "vvvv"
 
       # Use local playbook that has access to shared roles, with custom vars above
-      ansible.playbook = "ansible/php-apache2.yml"
+      ansible.playbook = "ansible/php7-apache2.yml"
     end
 
   end

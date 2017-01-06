@@ -1,0 +1,25 @@
+---
+
+- name: Debian - Add DotDeb GPG Key
+  apt_key:
+    url: https://www.dotdeb.org/dotdeb.gpg
+    state: present
+
+- name: Debian (Jessie) - Ensure DotDeb repos are present
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  with_items: "{{ php_repositories }}"
+
+- name: update APT cache
+  apt: update_cache=yes
+
+- name: Debian - Install packages
+  apt: pkg={{ item }} state=installed
+  with_items: "{{ php_packages }}"
+  register: php_install
+
+- name: Install composer
+  include: composer.yml
+  tags:
+    - composer
