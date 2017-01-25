@@ -58,14 +58,14 @@ class FormController
     }
 
     /**
-     * @return string | boolean
+     * @return string|null
      */
     protected function getThankYouPage()
     {
         if (($thankyou = $this->settings['redirect_thankyou']) && filter_var($thankyou, FILTER_VALIDATE_URL)) {
             return $thankyou;
         }
-        return false;
+        return null;
     }
 
     public function __invoke($request, $response)

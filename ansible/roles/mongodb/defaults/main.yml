@@ -6,6 +6,7 @@ mongodb_port: 27017
 # Debian vars
 mongodb_service_name: "mongodb"
 mongodb_packages:
+  - libpcrecpp0
   - mongodb
   - mongodb-clients
   - mongodb-server

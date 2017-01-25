@@ -29,7 +29,7 @@ class FormOpen extends Elements\FormOpen
      * The token format is ['csrf_name' => '...', 'csrf_value' => '...']
      *
      * @param  array $token Associative array of token fields
-     * @return AdamWathan\Form\Elements\Input
+     * @return Elements\FormOpen
      */
     public function token($token)
     {

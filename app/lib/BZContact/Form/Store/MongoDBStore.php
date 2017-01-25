@@ -38,13 +38,13 @@ class MongoDBStore implements StoreInterface
      * Save a form entry to a MongoDB collection
      *
      * @param array $data Array of form data
-     * @return boolean
+     * @return array
      * @throws Sokil\Mongo\Exception
      */
     public function saveEntry(array $data)
     {
-        $this->collection->insert($data);
-        return true;
+        $doc = $this->collection->createDocument($data)->save();
+        return $doc->toArray();
     }
 
     /**
