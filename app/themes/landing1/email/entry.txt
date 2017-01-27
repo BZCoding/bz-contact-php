@@ -1,0 +1,8 @@
+New landing page subscription from: <?=$entry['email'], (!empty($entry['name'])) ? ' (' . $entry['name'] . ')' : '', "\n"?>
+
+------------
+
+Date/Time:  <?=(!empty($entry['datetime'])) ? $entry['datetime'] : 'n.a', "\n"?>
+IP Address: <?=(!empty($entry['ip'])) ? $entry['ip'] : 'n.a', "\n"?>
+Referer:    <?=(!empty($entry['referer'])) ? $entry['referer'] : 'n.a', "\n"?>
+Domain:     <?=(!empty($entry['domain'])) ? $entry['domain'] : 'n.a', "\n"?>

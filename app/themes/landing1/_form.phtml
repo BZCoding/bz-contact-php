@@ -1,0 +1,28 @@
+<?= $form->open(); ?>
+  <ol class="form-fields row">
+  <?php foreach ($form->fields() as $field): ?>
+    <li class="<?=$field->type?> four columns">
+    <?php switch ($field->type):
+      case 'checkbox': ?>
+        <?= $form->label()->forId($field->id)->after($form->field($field->id))->addClass($field->id); ?>
+        <?= $form->getError($field->id); ?>
+      <?php break; ?>
+
+      <?php case 'radio': ?>
+          <?= $form->field($field->id); ?>
+          <?= $form->getError($field->id); ?>
+      <?php break; ?>
+
+      <?php case 'submit': ?>
+        <?= $form->field($field->id); ?>
+      <?php break; ?>
+
+      <?php default: ?>
+        <?php /* $form->label()->forId($field->id); */ ?>
+        <?= $form->field($field->id)->attribute('aria-label', $field->label); ?>
+        <?= $form->getError($field->id); ?>
+    <?php break; endswitch; ?>
+    </li>
+  <?php endforeach; ?>
+  </ol>
+<?= $form->close(); ?>

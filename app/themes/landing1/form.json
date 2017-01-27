@@ -1,0 +1,35 @@
+{
+    "attributes": {
+        "class": "contact-form container",
+        "accept-charset": "utf-8",
+        "novalidate":"novalidate"
+    },
+    "fields": [
+        {
+            "id": "contact-name",
+            "name": "name",
+            "label": "First Name",
+            "placeholder": "First Name",
+            "class": "u-full-width",
+            "required": true,
+            "error": "Your name is a required field"
+        },
+        {
+            "id": "contact-email",
+            "name": "email",
+            "label": "Email address",
+            "placeholder": "Email Address",
+            "type": "email",
+            "class": "u-full-width",
+            "required": true
+        },
+        {
+            "id": "contact-submit",
+            "name": "saveForm",
+            "type": "submit",
+            "value": "Send message",
+            "class": "button-primary u-full-width",
+            "save": false
+        }
+    ]
+}

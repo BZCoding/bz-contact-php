@@ -1,0 +1,57 @@
+<?php require_once '_header.phtml'; ?>
+
+  <header role="banner" class="hero">
+    <div class="container">
+          <h1>BZContact <small>PHP Form Manager</small></h1>
+          <p class="lead">
+            BZContact is a simple contact form manager. It can be used to manage
+            a contact form for a static web site, or to create a landing page
+            and collect call to action requests.
+          </p>
+          <p>
+            <a class="button button-primary" href="https://github.com/BZCoding/bz-contact-php">Fork it on GitHub</a>
+          </p>
+    </div>
+  </header>
+
+  <main>
+    <section id="contact-form-top">
+      <?php require '_form.phtml'; ?>
+    </section>
+
+    <section id="content" class="container">
+
+      <h2>Need XYZ? This is the solution!</h2>
+
+<?php // Insert custom text here, you can use Markdown
+$text = <<<'EOT'
+Insert your form instructions here, [Markdown](https://en.wikipedia.org/wiki/Markdown) allowed!
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+Lorem ipsum dolor sit amet, consectetur adipisicing:
+
+ - sit amet, consectetur adipisicing elit
+ - exercitation ullamco laboris
+ - labore et dolore magna aliqua
+ - tempor incididunt ut labore
+ - ut enim ad minim veniam
+
+EOT;
+?>
+      <?= markdown($text); ?>
+
+    </section>
+
+    <section id="contact-form-bottom">
+      <?php require '_form.phtml'; ?>
+    </section>
+  </main>
+
+<?php require_once '_footer.phtml'; ?>
