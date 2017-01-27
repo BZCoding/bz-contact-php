@@ -12,6 +12,8 @@
         }
     };
 
-    $('#frm-contact').validate(options);
+    $('.contact-form').each(function() {
+        $(this).validate(options);
+    });
 
 })(window, jQuery);
