@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "723cbaf24b2c33e2fecaed733ee9faf4",
+    "content-hash": "42694ed39a7b2a39fca106b133994d7f",
     "packages": [
         {
             "name": "adamwathan/form",
@@ -1882,16 +1882,16 @@
         },
         {
             "name": "heroku/heroku-buildpack-php",
-            "version": "v117",
+            "version": "v121",
             "source": {
                 "type": "git",
                 "url": "https://github.com/heroku/heroku-buildpack-php.git",
-                "reference": "960199a978308c75926fd9bb4775f7113bf1d777"
+                "reference": "727aa850a02a7af94c9225237464be8e8c8ff6db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/960199a978308c75926fd9bb4775f7113bf1d777",
-                "reference": "960199a978308c75926fd9bb4775f7113bf1d777",
+                "url": "https://api.github.com/repos/heroku/heroku-buildpack-php/zipball/727aa850a02a7af94c9225237464be8e8c8ff6db",
+                "reference": "727aa850a02a7af94c9225237464be8e8c8ff6db",
                 "shasum": ""
             },
             "bin": [
@@ -1922,7 +1922,7 @@
                 "nginx",
                 "php"
             ],
-            "time": "2016-12-09T19:37:38+00:00"
+            "time": "2017-03-27T23:33:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -3970,7 +3970,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~5.6|~7.0",
+        "php": "~7.0",
         "ext-mongodb": ">=0.9.0"
     },
     "platform-dev": []
