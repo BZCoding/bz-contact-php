@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "42694ed39a7b2a39fca106b133994d7f",
+    "content-hash": "df8d8c4bc13bd9ef83bbbf3a85bc68a0",
     "packages": [
         {
             "name": "adamwathan/form",
@@ -3970,8 +3970,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~7.0",
-        "ext-mongodb": ">=0.9.0"
+        "php": "^5.6 || ^7.0",
+        "ext-mongodb": "^1.0"
     },
     "platform-dev": []
 }
