@@ -8,7 +8,7 @@ class FormBuilderTest extends TestCase
 
     /**
      * Raise an error when no data is passed to constructor
-     * @expectedException PHPUnit_Framework_Error
+     * @expectedException PHPUnit\Framework\Error\Error
      */
     public function testErrorOnNoData()
     {

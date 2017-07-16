@@ -1,4 +1,7 @@
 <?php
+use Rollbar\Rollbar;
+use Rollbar\Payload\Level;
+
 // Set Rollbar error tracking, if available
 if (!empty($_SERVER['ROLLBAR_ACCESS_TOKEN'])) {
     Rollbar::init([
@@ -46,7 +49,7 @@ try {
     error_log('[app:error] ' . $e->getMessage(), 0);
 
     // Send the exception to Rollbar (it's not automatic)
-    Rollbar::report_exception($e);
+    Rollbar::log(Level::error(), $e);
 
     if (PHP_SAPI === 'cli') {
         exit(1);

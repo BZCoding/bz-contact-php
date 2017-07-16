@@ -5,6 +5,7 @@
 .DS_Store
 /coverage
 .env
+*.swp
 
 # Need to be symlinked
 /app/public/css
