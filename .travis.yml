@@ -10,6 +10,7 @@ addons:
 
 before_install:
   - phpenv config-rm xdebug.ini
+  - pecl install mongodb
   - echo 'date.timezone = "Europe/London"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
