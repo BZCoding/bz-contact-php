@@ -10,11 +10,13 @@ addons:
 
 before_install:
   - phpenv config-rm xdebug.ini
-  - pecl install mongodb
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} == "5.6" ]]; then pecl install mongodb; fi
   - echo 'date.timezone = "Europe/London"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - echo "extension = mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 install: composer install --no-scripts
+
+script: phpunit
 
 after_script:
   - vendor/bin/test-reporter --coverage-report=./coverage/clover.xml
