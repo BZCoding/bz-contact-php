@@ -3,7 +3,8 @@
 namespace BZContact\Form\Store;
 
 use Psr\Log\LoggerInterface;
-use Sokil\Mongo\Collection;
+use MongoDB\Collection;
+use MongoDB\BSON\ObjectID;
 
 class MongoDBStore implements StoreInterface
 {
@@ -39,12 +40,15 @@ class MongoDBStore implements StoreInterface
      *
      * @param array $data Array of form data
      * @return array
-     * @throws Sokil\Mongo\Exception
+     * @throws MongoDB\Exception\InvalidArgumentException
+     * @throws MongoDB\Driver\Exception\RuntimeException
+     * @throws MongoDB\Driver\Exception\BulkWriteException
      */
     public function saveEntry(array $data)
     {
-        $doc = $this->collection->createDocument($data)->save();
-        return $doc->toArray();
+        $res = $this->collection->insertOne($data);
+        $id = $res->getInsertedId();
+        return (array) $this->collection->findOne(['_id' => $id]);
     }
 
     /**
@@ -52,13 +56,14 @@ class MongoDBStore implements StoreInterface
      *
      * @param string $id Document id
      * @return array
-     * @throws Sokil\Mongo\Exception
+     * @throws MongoDB\Exception\UnsupportedException
+     * @throws MongoDB\Exception\InvalidArgumentException
+     * @throws MongoDB\Driver\Exception\RuntimeException
      */
     public function getEntry($id)
     {
-        $entry = $this->collection->getDocument($id);
-        $data = json_decode(json_encode($entry), true);
-        $data['id'] = $entry->_id->{'$id'};
+        $data = (array) $this->collection->findOne(['_id' => new ObjectID($id)]);
+        $data['id'] = (string) $data['_id'];
         unset($data['_id']);
         return $data;
     }
