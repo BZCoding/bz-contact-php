@@ -25,13 +25,6 @@
             "MailChimp\\": "app/lib/MailChimp"
         }
     },
-	"config": {
-		"platform": {
-			"php": "7.0.16",
-			"ext-mongo": "1.6.14",
-			"ext-mongodb": "1.2.0"
-		}
-	},
     "require": {
         "php": "~5.6 || ~7.0",
         "ext-mongodb": "^1.0",
