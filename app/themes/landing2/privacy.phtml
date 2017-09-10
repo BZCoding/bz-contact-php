@@ -1,0 +1,32 @@
+<?php require_once '_header.phtml'; ?>
+
+  <header role="banner" class="hero">
+    <div class="container">
+          <h1><?=$siteName?> <small><?=$pageTitle?></small></h1>
+          <p class="lead">
+            Insert an overview of your privacy policy here. Add full privacy content below.
+          </p>
+    </div>
+  </header>
+
+  <main>
+    <section id="terms" class="container">
+
+<?php // Insert custom text here, you can use Markdown
+$text = <<<'EOT'
+Insert your privacy content here, [Markdown](https://en.wikipedia.org/wiki/Markdown) allowed!
+
+### Lorem ipsum dolor sit amet
+
+Consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+EOT;
+?>
+      <?= markdown($text); ?>
+
+    </section>
+  </main>
+
+<?php require_once '_footer.phtml'; ?>

@@ -1,0 +1,177 @@
+/* General Styles */
+
+body {
+  background-color: #282b29;
+}
+
+.lead {
+  font-size: 110%;
+}
+
+a {
+  color: #b22b3d;
+}
+
+a:hover {
+  color: #801f2c;
+}
+
+/* Header */
+.hero {
+  background-color: #f7f7f7;
+  background-image: url(../../img/cover.jpg);
+  background-size: cover;
+  padding: 8rem 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.hero h1 {
+  color: #801f2c;
+  letter-spacing: .1rem;
+}
+
+.hero h1 small {
+  display: block;
+  font-size: 60%;
+  color: #666;
+  letter-spacing: initial;
+}
+
+.hero .lead {
+  max-width: 35em;
+}
+
+.hero .button-primary {
+  border-radius: 20px;
+}
+
+/* Main Content Box */
+main {
+  background: #f2e9e6;
+}
+
+/* Action button */
+#action {
+  padding-top: 3rem;
+}
+
+/* Form Component(s) */
+
+#contact-form-top, #contact-form-bottom {
+  background: #d9d7d2;
+  padding: 3rem 0;
+}
+
+/* Make form column smaller */
+#content {
+  margin: 0 auto;
+  max-width: 60rem;
+  padding-top: 3rem;
+}
+
+#content h2 {
+  color: #444;
+  letter-spacing: .1rem;
+  font-size: 3.2rem;
+}
+
+.form-fields {
+  list-style: none;
+  margin-bottom: 0;
+}
+
+.form-fields .error {
+  color: #d00;
+  font-weight: 600;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  display: inline-block;
+  margin-right: .5em;
+}
+
+/* Allow textareas to expand freely */
+textarea {
+  height: auto;
+}
+
+label.privacy {
+  font-weight: normal;
+}
+
+fieldset {
+  margin-bottom: 0;
+}
+
+fieldset label {
+    display: inline-block;
+    padding-right: 1em;
+    font-weight: normal;
+}
+
+/* Override buttons colors */
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: #FFF;
+  background-color: #b22b3d;
+  border-color: #b22b3d; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: #FFF;
+  background-color: #801f2c;
+  border-color: #801f2c; }
+
+
+/* Footer */
+[role="contentinfo"] {
+  text-align: center;
+  background-color: #282b29;
+  color: #f2f2f2;
+  padding: 3.2em 0 1.6em 0;
+}
+
+[role="contentinfo"] a {
+  color: #c0c0c0;
+}
+
+[role="contentinfo"] a:hover {
+  color: #d65366;
+}
+
+
+/* Media queries */
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+  .hero {
+    padding: 16rem 0;
+  }
+  .hero h1 small {
+    display: initial;
+    font-size: 60%;
+  }
+  .hero h1 {
+    font-size: 6rem;
+  }
+/*  .form-fields li, .form-fields input, .form-fields button {
+    margin-bottom: 0;
+  }
+*/}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {
+  .hero .lead {
+    max-width: 50em;
+  }
+}
