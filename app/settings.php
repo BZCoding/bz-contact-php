@@ -13,7 +13,7 @@ if (!empty($_SERVER['ROLLBAR_ACCESS_TOKEN'])) {
 // We need to take care of exceptions here, Slim won't catch 'em
 try {
     // Stop if database is not configured
-    if (empty($_SERVER['DATABASE_URI'])) {
+    if (empty(getenv('DATABASE_URI'))) {
         throw new \Exception('Missing Database settings');
     }
 

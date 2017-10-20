@@ -6,6 +6,8 @@
 /coverage
 .env
 *.swp
+/data/mongodb/*
+!/data/mongodb/.gitkeep
 
 # Need to be symlinked
 /app/public/css
