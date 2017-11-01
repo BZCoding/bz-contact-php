@@ -97,14 +97,22 @@ $container['dispatcher'] = function ($c) {
 // queue provider
 $container['amqp'] = function ($c) {
     $settings = $c->get('settings')['amqp'];
-    $amqp = new PhpAmqpLib\Connection\AMQPStreamConnection(
-        $settings['host'],
-        $settings['port'],
-        $settings['username'],
-        $settings['password'],
-        $settings['vhost']
-    );
-    return $amqp;
+    for ($i = 1; $i <= 5; $i++) {
+        try {
+            $amqp = new PhpAmqpLib\Connection\AMQPStreamConnection(
+                $settings['host'],
+                $settings['port'],
+                $settings['username'],
+                $settings['password'],
+                $settings['vhost']
+            );
+            return $amqp;
+        } catch (\Exception $e) {
+            $c->get('logger')->error('Unable to connect to AMQP', ['error' => $e->getMessage()]);
+            sleep(5);
+        }
+    }
+    throw new \Exception(sprintf('Unable to connect to AMQP after %d attempts', $i));
 };
 
 // job queue

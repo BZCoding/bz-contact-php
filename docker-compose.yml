@@ -35,7 +35,7 @@ services:
       dockerfile: ./docker/worker/Dockerfile
     image: worker:latest
     container_name: worker
-    command: ["bin/wait-for-it.sh", "rabbit:5672", "--", "bin/worker"]
+    restart: on-failure
     env_file: docker.env
     volumes:
       - "./app:/var/www/html/app"
